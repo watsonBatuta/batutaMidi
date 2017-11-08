@@ -56,9 +56,9 @@ void loop()
   Serial.print(" ");
   Serial.println();
 
-  volume = map(shake, 0, 250, 30, 127);
+  volume = map(shake, 0, 200, 20, 127);
   volume = (int) constrain(volume, 0,127);
-  controlChange(3,7,volume);
+  controlChange(2,6,volume);
   MidiUSB.flush();
 
   // Aguarda 100ms e reinicia o processo

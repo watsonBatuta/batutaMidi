@@ -29,10 +29,10 @@ void setup() {
   String[] unavailable = MidiBus.unavailableDevices(); //Returns an array of unavailable devices
   for (int i = 0; i < unavailable.length; i++) System.out.println("["+i+"] \""+unavailable[i]+"\"");
 
-  bus1 = new MidiBus(this, 2, -1, "bus1");
-  bus2 = new MidiBus(this, 3, -1, "bus2");
-  bus3 = new MidiBus(this, 4, -1, "bus3");
-  bus4 = new MidiBus(this, 5, -1, "bus4");
+  bus1 = new MidiBus(this, 0, -1, "bus1");
+  //bus2 = new MidiBus(this, 3, -1, "bus2");
+ //bus3 = new MidiBus(this, 4, -1, "bus3");
+  //bus4 = new MidiBus(this, 5, -1, "bus4");
   //bus5 = new MidiBus(this, 6, -1, "bus5");
   //bus6 = new MidiBus(this, 3, -1, "bus6");
 
