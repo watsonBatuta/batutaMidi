@@ -2,9 +2,6 @@ import ddf.minim.*;
 import ddf.minim.analysis.*;
 import themidibus.*;
  
- 
- 
- 
 Minim minim;
 AudioPlayer song;
 FFT fft;
@@ -55,7 +52,7 @@ void setup()
   minim = new Minim(this);
  
   //Charger la chanson
-  song = minim.loadFile("song.mp3");
+  song = minim.loadFile("frevo.mp3");
   
   //Créer l'objet FFT pour analyser la chanson
   fft = new FFT(song.bufferSize(), song.sampleRate());
@@ -184,7 +181,9 @@ void cubos(){
   {
     //Valeur de la bande de fréquence, on multiplie les bandes plus loins pour qu'elles soient plus visibles.
     float bandValue1 = fft.getBand(i)*(1 + (i/50));
-    float bandValue = bandValue1*shake;
+    //float bandValue = bandValue1*shake; // pegando o valor do midi
+    //float bandValue = (bandValue1*mouseY)*0.0080; //pegando mouse
+    println ("o valor do mouxe X eh"+ bandValue );
     
     
     
