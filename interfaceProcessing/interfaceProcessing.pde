@@ -68,7 +68,11 @@ float shake;
 
 void setup() {
   //Load cubos
-  
+  time = "10";
+  cont = 10;
+  interval = 1000;//one second
+  bg = color (0);
+  begin = 0;
   //Faire afficher en 3D sur tout l'écran
   //fullScreen(P3D);
  
@@ -126,16 +130,20 @@ void setup() {
   loadSolos();
   freviana1_2 = minim.loadFile("freviana_1_2.mp3",2048);
   freviana2_1 = minim.loadFile("freviana_2_1.mp3",2048);
+  
+  freviana1_2.rewind();
+  freviana2_1.rewind();
+  played = false;
 
 
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  fullScreen();
-  //size(800,600,P3D);
+  //fullScreen();
+  size(800,600,P3D);
   smooth();
   noFill();
-  state = 0;
+  state = 3;
   // sax, trombone,trompete, percussao, batuta; 
   //sax = new MidiBus(this, 1, -1,"0");
   //trombone = new MidiBus(this, 0, 4,"1");
@@ -185,9 +193,8 @@ void controllerChange(int channel, int number, int value) {
       break;
     }
     case 3:{
+      instruments.set(channel,value);
       sendAbleton(channel, number, value);
-      //chamar funcao cubos
-      cubos();
       break;
     }
   } 
@@ -258,6 +265,8 @@ void draw() {
       instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
       instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);         
       
+      println("tocacndo " + freviana1_2.isPlaying());
+      println("played " + played);
       if (freviana1_2.isPlaying()==false) {
         if (played){
           state = 2;
@@ -385,7 +394,8 @@ void cronometro(){
       background(bg);
       time = "vamos Frevar!";
       delay(100);
-      state = 0;
+      //setup();
+      state = 3;
       
     }
     textSize(60); 
@@ -547,7 +557,7 @@ void cubos(){
   //Faire avancer la chanson. On draw() pour chaque "frame" de la chanson...
     //Commencer la chanson
   song.play();
-  song.mute();
+  //song.mute();
 
   fft.forward(song.mix);
   
@@ -624,9 +634,10 @@ void cubos(){
   {
     //Valeur de la bande de fréquence, on multiplie les bandes plus loins pour qu'elles soient plus visibles.
     float bandValue1 = fft.getBand(i)*(1 + (i/50));
-    float bandValue = bandValue1*shake; // pegando o valor do midi
+    println("intruments 3 "+ instruments.get(3));
+    float bandValue = bandValue1*map(instruments.get(3),0,127,0.0,1.8); // pegando o valor do midi
        
-    println(bandValue);
+    println("band value " + bandValue);
     //Selection de la couleur en fonction des forces des différents types de sons
     stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
     strokeWeight(1 + (scoreGlobal/100));
@@ -658,12 +669,12 @@ void cubos(){
   delay(100);
   
   //    //Murs rectangles
-  //for(int i = 0; i < nbMurs; i++)
-  //{
-  //  //On assigne à chaque mur une bande, et on lui envoie sa force.
-  //  float intensity = fft.getBand(i%((int)(fft.specSize()*specHi)));
-  //  murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
-  //}  
+  for(int i = 0; i < nbMurs; i++)
+  {
+    //On assigne à chaque mur une bande, et on lui envoie sa force.
+    float intensity = fft.getBand(i%((int)(fft.specSize()*specHi)));
+    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
+  }  
 
 
 }
@@ -719,7 +730,7 @@ class Cube {
     rotateZ(sumRotZ);
     
     //Création de la boite, taille variable en fonction de l'intensité pour le cube
-    box(100+(intensity/2));
+    //box(100+(intensity/2));
     
     //Application de la matrice
     popMatrix();
