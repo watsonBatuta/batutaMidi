@@ -33,9 +33,9 @@ PImage logo, softex, ibm, paco;
 
 // Variables qui définissent les "zones" du spectre
 // Par exemple, pour les basses, on prend seulement les premières 4% du spectre total
-float specLow = 0.03; // 3%
-float specMid = 0.125;  // 12.5%
-float specHi = 0.20;   // 20%
+float specLow = 0.3; // 3%
+float specMid = 0.20;  // 12.5%
+float specHi = 0.50;   // 20%
 
 // Il reste donc 64% du spectre possible qui ne sera pas utilisé. 
 // Ces valeurs sont généralement trop hautes pour l'oreille humaine de toute facon.
@@ -86,7 +86,8 @@ void setup() {
   fft = new FFT(song.bufferSize(), song.sampleRate());
   
   //Un cube par bande de fréquence
-  nbCubes = (int)(fft.specSize()*specHi);
+  //nbCubes = (int)(fft.specSize()*specHi);
+  nbCubes = 0;
   cubes = new Cube[nbCubes];
   
   //Autant de murs qu'on veux
@@ -101,17 +102,17 @@ void setup() {
   //Créer les objets murs
   //Murs gauches
   for (int i = 0; i < nbMurs; i+=4) {
-   murs[i] = new Mur(0, height/2, 10, height); 
+   murs[i] = new Mur(-20, height/2, 10, height); 
   }
   
   //Murs droits
   for (int i = 1; i < nbMurs; i+=4) {
-   murs[i] = new Mur(width, height/2, 10, height); 
+   murs[i] = new Mur(width+20, height/2, 10, height); 
   }
   
   //Murs bas
   for (int i = 2; i < nbMurs; i+=4) {
-   murs[i] = new Mur(width/2, height, width, 10); 
+   murs[i] = new Mur(width/2, height+20, width, 10); 
   }
   
   //Murs haut
@@ -143,7 +144,7 @@ void setup() {
   size(800,600,P3D);
   smooth();
   noFill();
-  state = 3;
+  state = 0;
   // sax, trombone,trompete, percussao, batuta; 
   //sax = new MidiBus(this, 1, -1,"0");
   //trombone = new MidiBus(this, 0, 4,"1");
@@ -623,12 +624,21 @@ void cubos(){
   float previousBandValue = fft.getBand(0);
   
   //Distance entre chaque point de ligne, négatif car sur la dimension z
+  //float dist = -25;
   float dist = -25;
   
   //Multiplier la hauteur par cette constante
   float heightMult = 2;
 
-
+    //    //Murs rectangles
+  for(int i = 0; i < nbMurs; i++)
+  {
+    //On assigne à chaque mur une bande, et on lui envoie sa force.
+    float intensity = 50+fft.getBand(i%((int)(fft.specSize()*specHi)));
+    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
+  } 
+  
+  delay(100);
   //Pour chaque bande
   for(int i = 1; i < fft.specSize(); i++)
   {
@@ -666,15 +676,8 @@ void cubos(){
     previousBandValue = bandValue;
 
   }
-  delay(100);
   
-  //    //Murs rectangles
-  for(int i = 0; i < nbMurs; i++)
-  {
-    //On assigne à chaque mur une bande, et on lui envoie sa force.
-    float intensity = fft.getBand(i%((int)(fft.specSize()*specHi)));
-    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
-  }  
+ 
 
 
 }
@@ -731,6 +734,8 @@ class Cube {
     
     //Création de la boite, taille variable en fonction de l'intensité pour le cube
     //box(100+(intensity/2));
+    //line(width/2,height/2,width/2,height/2);
+    image(logo, random(1,width), random(0, height/2));
     
     //Application de la matrice
     popMatrix();
@@ -752,7 +757,7 @@ class Cube {
 class Mur {
   //Position minimale et maximale Z
   float startingZ = -10000;
-  float maxZ = 50;
+  float maxZ = -100;
   
   //Valeurs de position
   float x, y, z;
