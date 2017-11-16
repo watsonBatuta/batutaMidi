@@ -6,8 +6,7 @@ import ddf.minim.analysis.*;
 AudioPlayer song;
 FFT fft;
 
-//saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
-MidiBus sax, trompete, trombone, percussao, batuta, ableton; // The MidiBus
+MidiBus sax, trompete, trombone, percussao, batuta; // The MidiBus
 
 float scaler = 75;
 int m = 2;
@@ -34,9 +33,9 @@ PImage logo, softex, ibm, paco;
 
 // Variables qui définissent les "zones" du spectre
 // Par exemple, pour les basses, on prend seulement les premières 4% du spectre total
-float specLow = 0.3; // 3%
-float specMid = 0.20;  // 12.5%
-float specHi = 0.50;   // 20%
+float specLow = 0.03; // 3%
+float specMid = 0.125;  // 12.5%
+float specHi = 0.20;   // 20%
 
 // Il reste donc 64% du spectre possible qui ne sera pas utilisé. 
 // Ces valeurs sont généralement trop hautes pour l'oreille humaine de toute facon.
@@ -69,11 +68,7 @@ float shake;
 
 void setup() {
   //Load cubos
-  time = "10";
-  cont = 10;
-  interval = 1000;//one second
-  bg = color (0);
-  begin = 0;
+  
   //Faire afficher en 3D sur tout l'écran
   //fullScreen(P3D);
  
@@ -87,8 +82,7 @@ void setup() {
   fft = new FFT(song.bufferSize(), song.sampleRate());
   
   //Un cube par bande de fréquence
-  //nbCubes = (int)(fft.specSize()*specHi);
-  nbCubes = 20;
+  nbCubes = (int)(fft.specSize()*specHi);
   cubes = new Cube[nbCubes];
   
   //Autant de murs qu'on veux
@@ -103,17 +97,17 @@ void setup() {
   //Créer les objets murs
   //Murs gauches
   for (int i = 0; i < nbMurs; i+=4) {
-   murs[i] = new Mur(-20, height/2, 10, height); 
+   murs[i] = new Mur(0, height/2, 10, height); 
   }
   
   //Murs droits
   for (int i = 1; i < nbMurs; i+=4) {
-   murs[i] = new Mur(width+20, height/2, 10, height); 
+   murs[i] = new Mur(width, height/2, 10, height); 
   }
   
   //Murs bas
   for (int i = 2; i < nbMurs; i+=4) {
-   murs[i] = new Mur(width/2, height+20, width, 10); 
+   murs[i] = new Mur(width/2, height, width, 10); 
   }
   
   //Murs haut
@@ -132,27 +126,21 @@ void setup() {
   loadSolos();
   freviana1_2 = minim.loadFile("freviana_1_2.mp3",2048);
   freviana2_1 = minim.loadFile("freviana_2_1.mp3",2048);
-  
-  freviana1_2.rewind();
-  freviana2_1.rewind();
-  played = false;
 
 
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  //fullScreen();
-  size(800,600,P3D);
+  fullScreen(P3D);
+  //size(800,600,P3D);
   smooth();
   noFill();
-  state = 3;
+  state = 0;
   // sax, trombone,trompete, percussao, batuta; 
-  sax = new MidiBus(this, 0, -1,"0");
-  trombone = new MidiBus(this, 3, -1,"1");
-  trompete = new MidiBus(this, 4, -1,"2");
-  percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 4, "5");
-  
+  //sax = new MidiBus(this, 1, -1,"0");
+  //trombone = new MidiBus(this, 0, 4,"1");
+  trompete = new MidiBus(this, 1, 5,"2");
+  percussao = new MidiBus(this, 0, 5,"3");
   //batuta = new MidiBus(this, 0, 4,"4");
   
   
@@ -169,11 +157,11 @@ void setup() {
 
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
-  //println(" channel ");
-  //print();
-  println("Channel:"+channel);
-  println("Number:"+number);
-  println("Value:"+value);
+  println("state");
+  println(state);
+  //println("Channel:"+channel);
+  //println("Number:"+number);
+  //println("Value:"+value);
   switch(state){
     case 0:{
       if(value>40){
@@ -197,44 +185,44 @@ void controllerChange(int channel, int number, int value) {
       break;
     }
     case 3:{
-      instruments.set(channel,value);
-      sendAbleton(channel, number, value);
+      //sendAbleton(channel, number, value);
+      //chamar funcao cubos
+      //cubos();
       break;
     }
   } 
 }
 
-void sendAbleton(int instrumento,int note, int value){
+void sendAbleton(int intrumento,int note, int value){
     //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
-  switch(instrumento){
+  switch(intrumento){
     case 0:{
       //sax.sendControllerChange(0, note, value);
       //errado
-      ableton.sendControllerChange(2,instrumento,value);
+      trompete.sendControllerChange(2,note,value);
       break;
     }
     case 1:{
-      ableton.sendControllerChange(2,instrumento,value);
+      //trombone.sendControllerChange(1, note, value);
       break;
     }
     case 2:{
-      ableton.sendControllerChange(2,instrumento,value);
+      //trompete.sendControllerChange(2, note,value);
       break;
     }
     case 3:{
-      ableton.sendControllerChange(2,instrumento,value);
+      percussao.sendControllerChange(3, note, value);
       break;
     }
     case 4:{
-      ableton.sendControllerChange(2,instrumento,value);
+      //batuta.sendControllerChange(4, note, value);
       break;
     }
   }
 }
 
 
-void draw() { 
-  
+void draw() {   
   
   switch(state){
     case 0:{
@@ -262,15 +250,13 @@ void draw() {
           endShape();
         }
       
-//int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
+      //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
       instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
       instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
       
       instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
       instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);         
       
-      println("tocacndo " + freviana1_2.isPlaying());
-      println("played " + played);
       if (freviana1_2.isPlaying()==false) {
         if (played){
           state = 2;
@@ -300,7 +286,7 @@ void draw() {
           endShape();
         }
       
-//int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
+      //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
       instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
       instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
       
@@ -322,7 +308,8 @@ void draw() {
           
           instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
           instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);              
-
+          
+          
         }else{
           println("play freviana");
           freviana2_1.play();
@@ -398,14 +385,15 @@ void cronometro(){
       background(bg);
       time = "vamos Frevar!";
       delay(100);
-      //setup();
       state = 3;
       
     }
     textSize(60); 
     text(time, width/2, height/2);
-  
+    
+    
   endShape();
+  
 }
 
 void mainDraw(int x, int y, int scale){
@@ -560,8 +548,9 @@ PVector superformulaPoint(float m,float n1,float n2,float n3,float phi) {
 void cubos(){
   //Faire avancer la chanson. On draw() pour chaque "frame" de la chanson...
     //Commencer la chanson
+  
   song.play();
-  //song.mute();
+  song.mute();
 
   fft.forward(song.mix);
   
@@ -624,74 +613,60 @@ void cubos(){
   }
   
   //Murs lignes, ici il faut garder la valeur de la bande précédent et la suivante pour les connecter ensemble
-    float previousBandValuePercussao =fft.getBand(0);
-    float previousBandValueSax =fft.getBand(0);
-    float previousBandValueTrombone =fft.getBand(0);
-    float previousBandValueTrompete =fft.getBand(0);
+  float previousBandValue = fft.getBand(0);
   
   //Distance entre chaque point de ligne, négatif car sur la dimension z
-  //float dist = -25;
   float dist = -25;
   
   //Multiplier la hauteur par cette constante
   float heightMult = 2;
 
-    //    //Murs rectangles
-  for(int i = 0; i < nbMurs; i++)
-  {
-    //On assigne à chaque mur une bande, et on lui envoie sa force.
-    float intensity = 50+fft.getBand(i%((int)(fft.specSize()*specHi)));
-    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
-  } 
-  
-  delay(100);
+
   //Pour chaque bande
   for(int i = 1; i < fft.specSize(); i++)
   {
     //Valeur de la bande de fréquence, on multiplie les bandes plus loins pour qu'elles soient plus visibles.
     float bandValue1 = fft.getBand(i)*(1 + (i/50));
-    println("intruments 3 "+ instruments.get(3));
-    float bandValuePercussao = bandValue1*map(instruments.get(3),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueSax = bandValue1*map(instruments.get(0),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrombone = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrompete = bandValue1*map(instruments.get(2),0,127,0.0,1.8); // pegando o valor do midi   
+    float bandValue = bandValue1*shake; // pegando o valor do midi
        
-       
-    println("band value " + bandValue);
+    println(bandValue);
     //Selection de la couleur en fonction des forces des différents types de sons
     stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
     strokeWeight(1 + (scoreGlobal/100));
     
     //ligne inferieure gauche
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), 0, height-(bandValueSax*heightMult), dist*i);  // vertical
-    line((previousBandValueSax*heightMult), height, dist*(i-1), (bandValueSax*heightMult), height, dist*i); // horizontal
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), (bandValueSax*heightMult), height, dist*i); // diagonal
+    line(0, height-(previousBandValue*heightMult), dist*(i-1), 0, height-(bandValue*heightMult), dist*i);  // vertical
+    line((previousBandValue*heightMult), height, dist*(i-1), (bandValue*heightMult), height, dist*i); // horizontal
+    line(0, height-(previousBandValue*heightMult), dist*(i-1), (bandValue*heightMult), height, dist*i); // diagonal
     
     //ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
-    line((previousBandValueTrombone*heightMult)+width/2-200, height, dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValue*heightMult), dist*(i-1), width/2-200, height-(bandValue*heightMult), dist*i);
+    line((previousBandValue*heightMult)+width/2-200, height, dist*(i-1), (bandValue*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValue*heightMult), dist*(i-1), (bandValue*heightMult)+width/2-200, height, dist*i);
     
     //ligne inferieure droite
-    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
-    line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
-    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
+    line(width, height-(previousBandValue*heightMult), dist*(i-1), width, height-(bandValue*heightMult), dist*i);
+    line(width-(previousBandValue*heightMult), height, dist*(i-1), width-(bandValue*heightMult), height, dist*i);
+    line(width, height-(previousBandValue*heightMult), dist*(i-1), width-(bandValue*heightMult), height, dist*i);
     
     //ligne superieure droite
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200, height-(bandValuePercussao*heightMult), dist*i);
-    line(width/2+200-(previousBandValuePercussao*heightMult), height, dist*(i-1), width/2+200-(bandValuePercussao*heightMult), height, dist*i);
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200-(bandValuePercussao*heightMult),height, dist*i);
+    line(width/2+200, height-(previousBandValue*heightMult), dist*(i-1), width/2+200, height-(bandValue*heightMult), dist*i);
+    line(width/2+200-(previousBandValue*heightMult), height, dist*(i-1), width/2+200-(bandValue*heightMult), height, dist*i);
+    line(width/2+200, height-(previousBandValue*heightMult), dist*(i-1), width/2+200-(bandValue*heightMult),height, dist*i);
     
-    
-    previousBandValuePercussao =  bandValuePercussao ;
-    previousBandValueSax = bandValueSax ;
-    previousBandValueTrombone = bandValueTrombone;
-    previousBandValueTrompete = bandValueTrompete ;
-    
+    //Sauvegarder la valeur pour le prochain tour de boucle
+    previousBandValue = bandValue;
 
   }
+  delay(100);
   
- 
+  //    //Murs rectangles
+  //for(int i = 0; i < nbMurs; i++)
+  //{
+  //  //On assigne à chaque mur une bande, et on lui envoie sa force.
+  //  float intensity = fft.getBand(i%((int)(fft.specSize()*specHi)));
+  //  murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
+  //}  
 
 
 }
@@ -747,13 +722,7 @@ class Cube {
     rotateZ(sumRotZ);
     
     //Création de la boite, taille variable en fonction de l'intensité pour le cube
-    //Criação dos objetos
-    
-    //box(100+(intensity/2));
-    //line(width/2,height/2,width/2,height/2);
-    image(logo, random(1,width), random(0, height/2));
-    //image(softex, random(1,width), random(0, height));
-    image(softex, 50, 50);
+    box(100+(intensity/2));
     
     //Application de la matrice
     popMatrix();
@@ -775,7 +744,7 @@ class Cube {
 class Mur {
   //Position minimale et maximale Z
   float startingZ = -10000;
-  float maxZ = -100;
+  float maxZ = 50;
   
   //Valeurs de position
   float x, y, z;

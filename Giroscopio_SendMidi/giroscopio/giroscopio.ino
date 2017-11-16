@@ -18,7 +18,7 @@ int y;
 int z;
 float leaky[2];
 float leakage = 0.1;
-int pot;
+int pot, channel;
 float shake = 0;
 int volume;
 void setup()
@@ -55,10 +55,15 @@ void loop()
   Serial.print(leakage);
   Serial.print(" ");
   Serial.println();
-
+  Serial.print(channel);
+  Serial.println(" channel ");
+  
+  channel = 2;
+  
+ //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   volume = map(shake, 0, 200, 20, 127);
   volume = (int) constrain(volume, 0,127);
-  controlChange(3,6,volume);
+  controlChange(channel,0,volume);
   MidiUSB.flush();
 
   // Aguarda 100ms e reinicia o processo
