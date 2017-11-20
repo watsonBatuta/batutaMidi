@@ -4,10 +4,11 @@ import ddf.minim.analysis.*;
 
 import gifAnimation.*;
 
-
- 
 AudioPlayer song;
 FFT fft;
+
+//fft para instrumentos
+FFT fft_sax, fft_trompete, fft_trombone, fft_bateria;
 
 //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
 MidiBus sax, trompete, trombone, percussao, batuta, ableton; // The MidiBus
@@ -18,7 +19,12 @@ float n1 = 18;
 float n2 = 1;
 float n3 = 1;
 IntList instruments;
+//audios para fase de apresentação (Afinação)
 AudioPlayer soloBateria, soloSax, soloTrompete, soloTrombone;
+//audios para as linhas
+AudioPlayer song_bateria, song_sax, song_trompete, song_trombone;
+
+
 AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana2_1, frevianaPlayable;
 Minim minim;//audio context
 boolean played;
@@ -88,13 +94,20 @@ void setup() {
   //fullScreen(P3D);
  
   //Charger la librairie minim
-  minim = new Minim(this);
- 
-  //Charger la chanson
-  song = minim.loadFile("frevo.mp3");
+  minim = new Minim(this);  
   
-  //Créer l'objet FFT pour analyser la chanson
-  fft = new FFT(song.bufferSize(), song.sampleRate());
+  // Carregando os sons dos instrumentos
+  loadAudios();
+  
+   //carregando fft para linhas de audios
+  loadFft();
+  
+  //tocando todos os instrumentos para realizar iteração com as linhas 
+  playSong();
+ 
+   
+  ////Créer l'objet FFT pour analyser la chanson
+  //fft = new FFT(song.bufferSize(), song.sampleRate());
   
   //Un cube par bande de fréquence
   //nbCubes = (int)(fft.specSize()*specHi);
@@ -149,7 +162,7 @@ void setup() {
   size(800,600,P3D);
   smooth();
   noFill();
-  state = 0;
+  state = 3;
   // sax, trombone,trompete, percussao, batuta; 
   sax = new MidiBus(this, 0, -1,"0");
   trombone = new MidiBus(this, 3, -1,"1");
