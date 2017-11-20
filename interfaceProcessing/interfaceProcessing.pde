@@ -2,6 +2,8 @@ import themidibus.*; //Import the library
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 
+import gifAnimation.*;
+
 
  
 AudioPlayer song;
@@ -72,6 +74,8 @@ float shake;
 
 int instrumentoAtual;
 
+
+
 void setup() {
   //Load cubos
   time = "10";
@@ -79,6 +83,7 @@ void setup() {
   interval = 1000;//one second
   bg = color (0);
   begin = 0;
+  
   //Faire afficher en 3D sur tout l'écran
   //fullScreen(P3D);
  
@@ -160,7 +165,8 @@ void setup() {
   softex = loadImage("logoSoftex.png");
   ibm = loadImage("logoIBM.png");
   paco = loadImage("logoPaco.png");
-
+  loadGif();
+  //frameRate(10);
   
 }
 
@@ -175,126 +181,11 @@ void draw() {
       break;
     }
     case 1:{
-      background(0);
-      
-      if (frevianaPlayable.isPlaying()==false) {
-        if (played){
-          state = 2;
-          played = false;
-          println("entrei aqui");
-        }else{
-          println("Tocando freviana " + instrumentoAtual);
-            switch(instrumentoAtual){
-              case 0:{
-                frevianaPlayable = freviana1_0;
-                frevianaPlayable.play();
-                instrumento = "Saxofone";
-                println(" play 0 ");
-                break;
-              }
-              case 1:{
-                frevianaPlayable = freviana1_1;
-                frevianaPlayable.play();
-                instrumento = "trombone";
-                println(" play 1 ");
-                break;
-              }
-              case 2:{
-                frevianaPlayable = freviana1_2;
-                frevianaPlayable.play();
-                instrumento = "trompete";
-                println(" play 2 ");
-                break;
-              }
-              case 3:{
-                frevianaPlayable = freviana1_3;
-                frevianaPlayable.play();
-                instrumento = "bateria"; 
-                println(" play 3 ");
-                break;
-              }
-            }
-          //frevianaPlayable.play();
-          frevianaPlayable.setGain(-20);
-          played =true;
-        }
-      }       
-      h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
-      h1("Percebi que você se interessou pelo "+instrumento+".", 40, width/2, 100);
-      h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
-      h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
-        
-      //myBus.list();
-      //mainDraw(width/2, height/2, 60);
-      
-        
-        try{for(int i = 0; i < frevianaPlayable.bufferSize() - 1; i++)
-        {
-          beginShape();
-          fill(225);
-          line(i, height/2 -50   + frevianaPlayable.left.get(i)*50,  i+1, height/2-50  + frevianaPlayable.left.get(i+1)*50);
-          line(i, height/2 + + frevianaPlayable.right.get(i)*50, i+1, height/2 + frevianaPlayable.right.get(i+1)*50);
-          endShape();
-        }}catch(Exception e){println(e);};
-      
-//int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
-      instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
-      instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
-      
-      instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
-      instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);         
-    
-      //state = 1;
+      tela1();
       break;
     }
     case 2:{
-      background(bg);
-      textAlign(CENTER);
-      h1("Agora, chegou a hora,", 40 ,width/2, 40);
-      h1("de juntar a orquestra e afinar os instrumentos.", 40 ,width/2, 100);
-      h1("Quanto mais rápido você balancar,", 40 ,width/2, 160);
-      h1("mais alto o volume do seu intrumento será!", 40 ,width/2, 220);
-      for(int i = 0; i < freviana2_1.bufferSize() - 1; i++)
-        {
-          beginShape();
-          line(i, height/2 -50   + freviana2_1.left.get(i)*50,  i+1, height/2-50  + freviana2_1.left.get(i+1)*50);
-          line(i, height/2 + + freviana2_1.right.get(i)*50, i+1, height/2 + freviana2_1.right.get(i+1)*50);
-          fill(225);
-          endShape();
-        }
-      
-//int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
-      instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
-      instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
-      
-      instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
-      instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);    
-      
-      if (freviana2_1.isPlaying()==false) {
-        if (played){
-          println("cronometro");
-          background(bg);
-          textAlign(CENTER);
-          h1("Agora, chegou a hora,", 40 ,width/2, 40);
-          h1("de juntar a orquestra e afinar os instrumentos.", 40 ,width/2, 100);
-          h1("Quanto mais rápido você balancar,", 40 ,width/2, 160);
-          h1("mais alto o volume do seu intrumento será!", 40 ,width/2, 220);
-          cronometro();
-          instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
-          instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
-          
-          instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
-          instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);              
-
-        }else{
-          println("play freviana");
-          freviana2_1.play();
-          freviana2_1.setGain(-20);
-          played =true;
-          begin = millis()/1000+10;
-        }
-      }   
-      
+      tela2();   
       break;
     }case 3:{
       cubos();
