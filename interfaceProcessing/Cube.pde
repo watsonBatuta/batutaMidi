@@ -137,8 +137,7 @@ void cubos(){
     //L'opacité est déterminée par le volume de la bande et le volume global.
     cubes[i].display(scoreLow, scoreMid, scoreHi, bandValue, scoreGlobal);
   }
-    
-    
+        
    float previousBandValuePercussao = fft_bateria.getBand(0);
    float previousBandValueSax = fft_sax.getBand(0);
    float previousBandValueTrombone = fft_trombone.getBand(0);
@@ -150,21 +149,18 @@ void cubos(){
   float dist = -25;
   
   //Multiplier la hauteur par cette constantel
-  float heightMult = 2;
+  float heightMult = 20;
 
-    //    //Murs rectangles
-  for(int i = 0; i < nbMurs; i++)
-  {
-    //On assigne à chaque mur une bande, et on lui envoie sa force.
-    float intensity = 50+fft.getBand(i%((int)(fft.specSize()*specHi)));
-    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
-  } 
-  
+    
   //delay(100);
   
   
   for(int i = 1; i < fft.specSize(); i++)
   {
+    //linha sax
+    //ligne inferieure gauche
+    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));     
+    
     println("for linha fft sem sax");
     
     println("intruments 3 "+ instruments.get(3));
@@ -172,11 +168,6 @@ void cubos(){
     //Selection de la couleur en fonction des forces des différents types de sons
     stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
     strokeWeight(1 + (scoreGlobal/100));
-    
-    //linha sax
-    //ligne inferieure gauche
-    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));      
-    
     
     //float bandValueSax = 100 ;
     println("band value sax e I " + fft_sax.getBand(i)+ " E " +  i );
@@ -208,7 +199,21 @@ void cubos(){
     line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
     line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
     line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
-       
-   
-  }
+          
+    //Sauvegarder la valeur pour le prochain tour de boucle
+    previousBandValueTrompete = bandValueTrompete;
+    previousBandValueTrombone = bandValueTrombone;
+    previousBandValuePercussao = bandValuePercussao;
+    previousBandValueSax = bandValueSax;
+
+}
+  
+  //    //Murs rectangles
+  for(int i = 0; i < nbMurs; i++)
+  {
+    //On assigne à chaque mur une bande, et on lui envoie sa force.
+    float intensity = 50+fft.getBand(i%((int)(fft.specSize()*specHi)));
+    murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
+  } 
+  
 }

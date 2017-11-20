@@ -58,8 +58,8 @@ void loadAudios(){
 void playSong(){
   
   //frevo
-  song.play();
-  //song.mute();
+  song.loop();
+  song.mute();
   
   song_bateria.loop();
   //song_bateria.mute();
@@ -75,6 +75,7 @@ void playSong(){
 }
 
 //analisar frames dos audios
+
 void loadFft(){
   
   //fft para analisar frevo completo
