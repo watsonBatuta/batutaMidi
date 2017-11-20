@@ -48,15 +48,7 @@ class Cube {
     rotateX(sumRotX);
     rotateY(sumRotY);
     rotateZ(sumRotZ);
-    
-    //Création de la boite, taille variable en fonction de l'intensité pour le cube
-    //Criação dos objetos
-    
-    //box(100+(intensity/2));
-    //line(width/2,height/2,width/2,height/2);
-    image(logo, random(1,width), random(0, height/2));
-    //image(softex, random(1,width), random(0, height));
-    image(softex, 50, 50);
+        
     
     //Application de la matrice
     popMatrix();
@@ -79,10 +71,14 @@ class Cube {
 void cubos(){
   //Faire avancer la chanson. On draw() pour chaque "frame" de la chanson...
     //Commencer la chanson
-  song.play();
-  //song.mute();
+  //song.play();
+  ////song.mute();
 
-  fft.forward(song.mix);
+  //fft.forward(song.mix);
+  
+  //chamar forward para os fft´s (interação com as linhas)
+  loadForward();
+  
   
   //Calcul des "scores" (puissance) pour trois catégories de son
   //D'abord, sauvgarder les anciennes valeurs
@@ -141,18 +137,19 @@ void cubos(){
     //L'opacité est déterminée par le volume de la bande et le volume global.
     cubes[i].display(scoreLow, scoreMid, scoreHi, bandValue, scoreGlobal);
   }
-  
-  //Murs lignes, ici il faut garder la valeur de la bande précédent et la suivante pour les connecter ensemble
-    float previousBandValuePercussao =fft.getBand(0);
-    float previousBandValueSax =fft.getBand(0);
-    float previousBandValueTrombone =fft.getBand(0);
-    float previousBandValueTrompete =fft.getBand(0);
-  
+    
+    
+   float previousBandValuePercussao = fft_bateria.getBand(0);
+   float previousBandValueSax = fft_sax.getBand(0);
+   float previousBandValueTrombone = fft_trombone.getBand(0);
+   float previousBandValueTrompete = fft_trompete.getBand(0);
+    
+    
   //Distance entre chaque point de ligne, négatif car sur la dimension z
   //float dist = -25;
   float dist = -25;
   
-  //Multiplier la hauteur par cette constante
+  //Multiplier la hauteur par cette constantel
   float heightMult = 2;
 
     //    //Murs rectangles
@@ -163,51 +160,55 @@ void cubos(){
     murs[i].display(scoreLow, scoreMid, scoreHi, intensity, scoreGlobal);
   } 
   
-  delay(100);
-  //Pour chaque bande
+  //delay(100);
+  
+  
   for(int i = 1; i < fft.specSize(); i++)
   {
-    //Valeur de la bande de fréquence, on multiplie les bandes plus loins pour qu'elles soient plus visibles.
-    float bandValue1 = fft.getBand(i)*(1 + (i/50));
+    println("for linha fft sem sax");
+    
     println("intruments 3 "+ instruments.get(3));
-    float bandValuePercussao = bandValue1*map(instruments.get(3),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueSax = bandValue1*map(instruments.get(0),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrombone = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrompete = bandValue1*map(instruments.get(2),0,127,0.0,1.8); // pegando o valor do midi   
-       
-       
-    println("band value " + bandValue);
+        
     //Selection de la couleur en fonction des forces des différents types de sons
     stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
     strokeWeight(1 + (scoreGlobal/100));
     
+    //linha sax
     //ligne inferieure gauche
+    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));      
+    
+    
+    //float bandValueSax = 100 ;
+    println("band value sax e I " + fft_sax.getBand(i)+ " E " +  i );
     line(0, height-(previousBandValueSax*heightMult), dist*(i-1), 0, height-(bandValueSax*heightMult), dist*i);  // vertical
     line((previousBandValueSax*heightMult), height, dist*(i-1), (bandValueSax*heightMult), height, dist*i); // horizontal
     line(0, height-(previousBandValueSax*heightMult), dist*(i-1), (bandValueSax*heightMult), height, dist*i); // diagonal
     
-    //ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
-    line((previousBandValueTrombone*heightMult)+width/2-200, height, dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
     
-    //ligne inferieure droite
-    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
-    line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
-    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
-    
+    //linha percussao
+    float bandValuePercussao = fft_bateria.getBand(i);
     //ligne superieure droite
     line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200, height-(bandValuePercussao*heightMult), dist*i);
     line(width/2+200-(previousBandValuePercussao*heightMult), height, dist*(i-1), width/2+200-(bandValuePercussao*heightMult), height, dist*i);
     line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200-(bandValuePercussao*heightMult),height, dist*i);
     
+    //linha trombone
+    println("For para linha fft trombone");
+    float bandValueTrombone = fft_trombone.getBand(i);
+    ////ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
+    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
+    line((previousBandValueTrombone*heightMult)+width/2-200, height, dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
     
-    previousBandValuePercussao =  bandValuePercussao ;
-    previousBandValueSax = bandValueSax ;
-    previousBandValueTrombone = bandValueTrombone;
-    previousBandValueTrompete = bandValueTrompete ;
-    
-
+    //linha trompete
+    println("For para linha fft trompete");
+    ///float bandValueTrompete = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
+    float bandValueTrompete = fft_trompete.getBand(i);
+    //ligne inferieure droite
+    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
+    line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
+    line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
+       
+   
   }
-
 }
