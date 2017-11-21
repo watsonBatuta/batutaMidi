@@ -10,6 +10,7 @@ void tela1(){
         switch(instrumentoAtual){
           case 0:{
             frevianaPlayable = freviana1_0;
+            freviana2_1 = freviana1_0;
             frevianaPlayable.play();
             instrumento = "Saxofone";
             println(" play 0 ");
@@ -17,6 +18,7 @@ void tela1(){
           }
           case 1:{
             frevianaPlayable = freviana1_1;
+            freviana2_1 = freviana1_0;
             frevianaPlayable.play();
             instrumento = "trombone";
             println(" play 1 ");
@@ -24,6 +26,7 @@ void tela1(){
           }
           case 2:{
             frevianaPlayable = freviana1_2;
+            freviana2_1 = freviana1_0;
             frevianaPlayable.play();
             instrumento = "trompete";
             println(" play 2 ");
@@ -31,9 +34,18 @@ void tela1(){
           }
           case 3:{
             frevianaPlayable = freviana1_3;
+            freviana2_1 = freviana1_0;
             frevianaPlayable.play();
             instrumento = "bateria"; 
             println(" play 3 ");
+            break;
+          }
+          case 4:{
+            frevianaPlayable = freviana1_4;
+            freviana2_1 = freviana1_0;
+            frevianaPlayable.play();
+            instrumento = "batuta"; 
+            println(" play 4 ");
             break;
           }
         }
@@ -43,6 +55,7 @@ void tela1(){
     }
   }       
   h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
+  
   h1("Percebi que você se interessou pelo "+instrumento+".", 40, width/2, 100);
   h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
   h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
@@ -63,6 +76,7 @@ void tela1(){
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
   drawInstrument(saxGif,saxImage, width/2-390, height/2+100, instruments.get(0) );
+  h1("Para aumentar o instrumento",15, width/2-300, height/2+260);
   drawInstrument(tromboneGif, tromboneImage, width/2-190, height/2+100, instruments.get(1));
   drawInstrument(trompeteGif, trompeteImage, width/2+10, height/2+100, instruments.get(2));
   drawInstrument(bateriaGif, bateriaImage, width/2+210, height/2+100, instruments.get(3));

@@ -25,22 +25,19 @@ AudioPlayer soloBateria, soloSax, soloTrompete, soloTrombone;
 AudioPlayer song_bateria, song_sax, song_trompete, song_trombone;
 
 
-AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana2_1, frevianaPlayable;
+
 Minim minim;//audio context
 boolean played;
 String instrumento;
 
-String time = "10";
-int cont = 10;
-int initialTime;
-int interval = 1000;//one second
+
 color bg = color (0);
 int begin = 0;
 
 int state;
 
 PImage logo, softex, ibm, paco;
-
+Gif ai;
 //Config. para cubos
 
 // Variables qui définissent les "zones" du spectre
@@ -84,8 +81,8 @@ int instrumentoAtual;
 
 void setup() {
   //Load cubos
-  time = "10";
-  cont = 10;
+  time = "5";
+  cont = 5;
   interval = 1000;//one second
   bg = color (0);
   begin = 0;
@@ -103,7 +100,7 @@ void setup() {
   loadFft();
   
   //tocando todos os instrumentos para realizar iteração com as linhas 
-  playSong();
+  
  
    
   ////Créer l'objet FFT pour analyser la chanson
@@ -158,11 +155,11 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  //fullScreen();
+  //fullScreen(P3D);
   size(800,600,P3D);
   smooth();
   noFill();
-  state = 3;
+  state = 2;
   // sax, trombone,trompete, percussao, batuta; 
   sax = new MidiBus(this, 0, -1,"0");
   trombone = new MidiBus(this, 3, -1,"1");
@@ -178,6 +175,8 @@ void setup() {
   softex = loadImage("logoSoftex.png");
   ibm = loadImage("logoIBM.png");
   paco = loadImage("logoPaco.png");
+  ai = new Gif(this, "ai_gif.gif");
+  ai.loop();
   loadGif();
   //frameRate(10);
   
@@ -202,6 +201,12 @@ void draw() {
       break;
     }case 3:{
       cubos();
+      image(ai, width/2-40 , height/2-25, 75,50);
+      if(song.isPlaying()){
+        println("tocando música ahahahahaha");
+      }else{
+        println("è hora de agradecer e deixar os coleguinhas bricarem");
+      }
       break;
     }    
   }

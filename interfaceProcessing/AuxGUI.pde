@@ -3,27 +3,37 @@ void h1(String texto, float size , int x, int y){
   textSize(size);
   textAlign(CENTER);
   text(texto, x, y);
-  fill(255);
+  fill(255,0,0);
   
   endShape();
 }
+
+String time = "5";
+int cont = 5;
+int initialTime;
+int interval = 1000;//one second
 
 void cronometro(){
   beginShape();
     playSolos();
     //background(bg);
+    println("time " + time);
+    println("milis "+millis());
     if (millis() - (initialTime) > interval && int(time) > 0){
-      println(millis());
-      time = nf(begin+(cont - int(millis()/1000)), 2);
+      println("inside if cronometro");
+      time = nf(begin+(cont - int(millis()/1000)), 1);
+      println("time " + time);
       initialTime = millis();
       
     }
     if (int(time) == 0){
       background(bg);
-      time = "vamos Frevar!";
+      time = " ";
       delay(100);
+      state = 3;
       //setup();
-      state = 0;
+      playSong();
+      
       
     }
     textSize(60); 

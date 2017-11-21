@@ -1,3 +1,5 @@
+AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, frevianaPlayable;
+
 void playSolos(){
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   println(soloBateria.isPlaying());
@@ -11,6 +13,8 @@ void playSolos(){
     
   }else {
     soloBateria.play();
+    println("begin cronometer");
+    begin = millis()/1000;
     soloBateria.setGain(-13);
     soloSax.play();
     soloSax.setGain(-13);
@@ -37,7 +41,8 @@ void loadFrevianaFiles(){
     freviana1_1 = minim.loadFile("1_1.mp3",2048);
     freviana1_2 = minim.loadFile("1_2.mp3",2048);
     freviana1_3 = minim.loadFile("1_3.mp3",2048);
-    freviana2_1 = minim.loadFile("freviana_2_1.mp3", 2048);
+    freviana1_4 = minim.loadFile("1_4.mp3",2048);
+    freviana2_1 = minim.loadFile("1_5.mp3", 2048);
     frevianaPlayable = minim.loadFile("1_3.mp3",2048);
 }
 
@@ -58,19 +63,19 @@ void loadAudios(){
 void playSong(){
   
   //frevo
-  song.loop();
+  song.play();
   song.mute();
   
-  song_bateria.loop();
+  song_bateria.play();
   //song_bateria.mute();
   
-  song_sax.loop();
+  song_sax.play();
   //song_sax.mute();
   
-  song_trompete.loop();
+  song_trompete.play();
   //song_trompete.mute();
     
-  song_trombone.loop();
+  song_trombone.play();
   //song_trombone.mute();  
 }
 

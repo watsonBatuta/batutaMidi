@@ -159,18 +159,12 @@ void cubos(){
   {
     //linha sax
     //ligne inferieure gauche
-    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));     
-    
-    println("for linha fft sem sax");
-    
-    println("intruments 3 "+ instruments.get(3));
-        
+    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));             
     //Selection de la couleur en fonction des forces des différents types de sons
     stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
     strokeWeight(1 + (scoreGlobal/100));
     
     //float bandValueSax = 100 ;
-    println("band value sax e I " + fft_sax.getBand(i)+ " E " +  i );
     line(0, height-(previousBandValueSax*heightMult), dist*(i-1), 0, height-(bandValueSax*heightMult), dist*i);  // vertical
     line((previousBandValueSax*heightMult), height, dist*(i-1), (bandValueSax*heightMult), height, dist*i); // horizontal
     line(0, height-(previousBandValueSax*heightMult), dist*(i-1), (bandValueSax*heightMult), height, dist*i); // diagonal
@@ -184,7 +178,6 @@ void cubos(){
     line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200-(bandValuePercussao*heightMult),height, dist*i);
     
     //linha trombone
-    println("For para linha fft trombone");
     float bandValueTrombone = fft_trombone.getBand(i);
     ////ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
     line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
@@ -192,7 +185,6 @@ void cubos(){
     line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
     
     //linha trompete
-    println("For para linha fft trompete");
     ///float bandValueTrompete = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
     float bandValueTrompete = fft_trompete.getBand(i);
     //ligne inferieure droite
