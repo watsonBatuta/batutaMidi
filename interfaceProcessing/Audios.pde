@@ -1,4 +1,4 @@
-AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro;
+AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos;
 
 void playSolos(){
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
@@ -48,6 +48,7 @@ void loadFrevianaFiles(){
     freviana3 = minim.loadFile("3.mp3", 2048);
     frevianaPlayable = minim.loadFile("1_3.mp3",2048);
     audioCronometro = minim.loadFile("cronometro.mp3",2048);
+    freviana_agradecimentos = minim.loadFile("freviana_agradecimentos.mp3", 2048);
 }
 
 // Carregando os sons dos instrumentos

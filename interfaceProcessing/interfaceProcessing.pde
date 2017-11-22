@@ -155,11 +155,11 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  //fullScreen(P3D);
-  size(800,600,P3D);
+  fullScreen(P3D);
+  //size(800,600,P3D);
   smooth();
   noFill();
-  state = 0;
+  state = 5;
   // sax, trombone,trompete, percussao, batuta; 
   sax = new MidiBus(this, 0, -1,"0");
   trombone = new MidiBus(this, 3, -1,"1");
@@ -187,23 +187,27 @@ void draw() {
   
   switch(state){
     case 0:{
-      
+      //bem vindo batuta
       tela0();
       
       break;
     }
     case 1:{
+      //apresentação da freviana
       tela1();
       break;
     }
     case 2:{
+      //explicação da dinâmica
       tela2();   
       break;
     }case 3:{
+      //afinando os instrumentos
       tela3();
       break;
     }
     case 4:{
+      //dinâmica
       cubos();
       image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
@@ -214,6 +218,7 @@ void draw() {
       break;
     }
     case 5:{
+      //tela de agradecimentos
       tela4();
     }
   }

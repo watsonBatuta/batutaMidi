@@ -1,6 +1,6 @@
 void h1(String texto, float size , int x, int y){
   beginShape();
-  fill(255,0,0);
+  fill(255,255,255);
   textSize(size);
   textAlign(CENTER);
   text(texto, x-600, y, 1200, height);
