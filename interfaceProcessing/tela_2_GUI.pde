@@ -1,26 +1,33 @@
+boolean played2 = false;
+
 void tela2(){
   background(bg);
   textAlign(CENTER);
-  h1("Podemos começar nossa experiência? Você pode me ajudar com os instrumentos.", 40 ,width/2, 40);
-  h1("Balance os objetos para aumentar ou diminuir seu volume.", 40 ,width/2, 100);
-  h1("Estão todos prontos? É hora de afinar os instrumentos.", 40 ,width/2, 160);
-  h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 220);
+  if(instrumentoAtual == 4){
+    h1("Podemos começar nossa experiência? Hoje você é o Maestro. Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.  E se quiser animar a banda balance a batuta o mais rápido que puder.",40, width/2, 30);
+  }else{
+    h1("Podemos começar nossa experiência? Você pode me ajudar com a minha música. Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume.", 40 ,width/2, 40);
+  }
 
-  for(int i = 0; i < freviana2_1.bufferSize() - 1; i++)
-    {
+  for(int i = 0; i < freviana2.bufferSize() - 1; i++){
       beginShape();
       stroke(10, 10, 255);
-      line(i, height/2 -50   + freviana2_1.left.get(i)*50,  i+1, height/2-50  + freviana2_1.left.get(i+1)*50);
-      line(i, height/2 + + freviana2_1.right.get(i)*50, i+1, height/2 + freviana2_1.right.get(i+1)*50);
+      line(i, height/2 -50   + freviana2.left.get(i)*50,  i+1, height/2-50  + freviana2.left.get(i+1)*50);
+      line(i, height/2 + + freviana2.right.get(i)*50, i+1, height/2 + freviana2.right.get(i+1)*50);
       fill(225);
       endShape();
     }
-  
-  drawInstrument(saxGif,saxImage, width/2-390, height/2+100, instruments.get(0) );
-  drawInstrument(tromboneGif, tromboneImage, width/2-190, height/2+100, instruments.get(1));
-  drawInstrument(trompeteGif, trompeteImage, width/2+10, height/2+100, instruments.get(2));
-  drawInstrument(bateriaGif, bateriaImage, width/2+210, height/2+100, instruments.get(3));
-  
+
+  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
+  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
+  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  h1("Para aumentar a banda",15, width/2-10, height/2+260);
+  drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
+  h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
+  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
   //instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
@@ -29,30 +36,19 @@ void tela2(){
   //instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
   //instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);    
   
-  if (freviana2_1.isPlaying()==false) {
+  if (freviana2.isPlaying()==false) {
     if (played){
-      println("cronometro");
-      background(bg);
-      textAlign(CENTER);
+      println("estado da tela mudar de estado");
+      state = 3;
+      played = false;
+      delay(1500);
       
-      h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 100);
-      cronometro();
-      drawInstrument(saxGif,saxImage, width/2-390, height/2+100, instruments.get(0) );
-      drawInstrument(tromboneGif, tromboneImage, width/2-190, height/2+100, instruments.get(1));
-      drawInstrument(trompeteGif, trompeteImage, width/2+10, height/2+100, instruments.get(2));
-      drawInstrument(bateriaGif, bateriaImage, width/2+210, height/2+100, instruments.get(3));
-      //instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
-      //instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
-      //instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
-      //instrument(width/2+300, height/2+200, 75, instruments.get(3), 7, 156, 66, 2, map(instruments.get(3), 0,127,0.1,2), 0.5, 0.5);              
-
+              
     }else{
       println("play freviana");
-      freviana2_1.play();
-      freviana2_1.setGain(-20);
+      freviana2.play();
+      freviana2.setGain(-20);
       played =true;
-
-
     }
   }
 }

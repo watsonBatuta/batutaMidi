@@ -81,8 +81,8 @@ int instrumentoAtual;
 
 void setup() {
   //Load cubos
-  time = "5";
-  cont = 5;
+  time = "10";
+  cont = 10;
   interval = 1000;//one second
   bg = color (0);
   begin = 0;
@@ -159,7 +159,7 @@ void setup() {
   size(800,600,P3D);
   smooth();
   noFill();
-  state = 2;
+  state = 0;
   // sax, trombone,trompete, percussao, batuta; 
   sax = new MidiBus(this, 0, -1,"0");
   trombone = new MidiBus(this, 3, -1,"1");
@@ -200,14 +200,21 @@ void draw() {
       tela2();   
       break;
     }case 3:{
+      tela3();
+      break;
+    }
+    case 4:{
       cubos();
       image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
-        println("tocando música ahahahahaha");
       }else{
-        println("è hora de agradecer e deixar os coleguinhas bricarem");
+        state = 5;
+        //setup();
       }
       break;
-    }    
+    }
+    case 5:{
+      tela4();
+    }
   }
 }

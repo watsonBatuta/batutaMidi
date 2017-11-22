@@ -1,21 +1,23 @@
 void h1(String texto, float size , int x, int y){
   beginShape();
+  fill(255,0,0);
   textSize(size);
   textAlign(CENTER);
-  text(texto, x, y);
-  fill(255,0,0);
+  text(texto, x-600, y, 1200, height);
+
   
   endShape();
 }
 
-String time = "5";
-int cont = 5;
+String time = "10";
+int cont = 10;
 int initialTime;
 int interval = 1000;//one second
 
 void cronometro(){
   beginShape();
     playSolos();
+    
     //background(bg);
     println("time " + time);
     println("milis "+millis());
@@ -26,14 +28,16 @@ void cronometro(){
       initialTime = millis();
       
     }
-    if (int(time) == 0){
+    if(int(time) == 3){
+      audioCronometro.play();
+    }else if (int(time) == 0){
       background(bg);
       time = " ";
       delay(100);
-      state = 3;
+      state = 4;
+      played2 = false;
       //setup();
-      playSong();
-      
+      playSong(); 
       
     }
     textSize(60); 

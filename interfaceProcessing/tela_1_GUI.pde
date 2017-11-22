@@ -10,7 +10,7 @@ void tela1(){
         switch(instrumentoAtual){
           case 0:{
             frevianaPlayable = freviana1_0;
-            freviana2_1 = freviana1_0;
+            freviana2 = freviana2_1;
             frevianaPlayable.play();
             instrumento = "Saxofone";
             println(" play 0 ");
@@ -18,7 +18,7 @@ void tela1(){
           }
           case 1:{
             frevianaPlayable = freviana1_1;
-            freviana2_1 = freviana1_0;
+            freviana2 = freviana2_1;
             frevianaPlayable.play();
             instrumento = "trombone";
             println(" play 1 ");
@@ -26,7 +26,7 @@ void tela1(){
           }
           case 2:{
             frevianaPlayable = freviana1_2;
-            freviana2_1 = freviana1_0;
+            freviana2 = freviana2_1;
             frevianaPlayable.play();
             instrumento = "trompete";
             println(" play 2 ");
@@ -34,7 +34,7 @@ void tela1(){
           }
           case 3:{
             frevianaPlayable = freviana1_3;
-            freviana2_1 = freviana1_0;
+            freviana2 = freviana2_1;
             frevianaPlayable.play();
             instrumento = "bateria"; 
             println(" play 3 ");
@@ -42,7 +42,7 @@ void tela1(){
           }
           case 4:{
             frevianaPlayable = freviana1_4;
-            freviana2_1 = freviana1_0;
+            freviana2 = freviana2_5;
             frevianaPlayable.play();
             instrumento = "batuta"; 
             println(" play 4 ");
@@ -53,13 +53,21 @@ void tela1(){
       frevianaPlayable.setGain(-20);
       played =true;
     }
-  }       
-  h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
-  
-  h1("Percebi que você se interessou pelo "+instrumento+".", 40, width/2, 100);
-  h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
-  h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
-    
+  }
+  if(instrumentoAtual == 4){
+    println("texto batuta");
+    h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pela Batuta. Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
+    //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
+    //h1("Percebi que você se interessou pela Batuta.", 40, width/2, 100);
+    //h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
+    //h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
+  }else{
+        h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
+    //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
+    //h1("Percebi que você se interessou pelo "+instrumento+".", 40, width/2, 100);
+    //h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
+    //h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
+  }
   //myBus.list();
   //mainDraw(width/2, height/2, 60);
   
@@ -75,11 +83,17 @@ void tela1(){
     }}catch(Exception e){println(e);};
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
-  drawInstrument(saxGif,saxImage, width/2-390, height/2+100, instruments.get(0) );
-  h1("Para aumentar o instrumento",15, width/2-300, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-190, height/2+100, instruments.get(1));
-  drawInstrument(trompeteGif, trompeteImage, width/2+10, height/2+100, instruments.get(2));
-  drawInstrument(bateriaGif, bateriaImage, width/2+210, height/2+100, instruments.get(3));
+
+  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
+  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
+  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  h1("Para aumentar a banda",15, width/2-10, height/2+260);
+  drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
+  h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
+  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   //instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
   //instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
   //instrument(width/2+100, height/2+200, 75, instruments.get(2), 0, 0, 179, 2, map(instruments.get(2), 0,127,0.1,2), 0.5, 0.5);
