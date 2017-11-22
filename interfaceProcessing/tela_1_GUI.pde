@@ -3,6 +3,7 @@ void tela1(){
   if (frevianaPlayable.isPlaying()==false) {
     if (played){
       state = 2;
+      fimAnimacao = false;
       played = false;
       println("entrei aqui");
     }else{
@@ -12,8 +13,10 @@ void tela1(){
             frevianaPlayable = freviana1_0;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
-            instrumento = "Saxofone";
             println(" play 0 ");
+            
+            instrumento = "Saxofone";
+            
             break;
           }
           case 1:{
@@ -55,14 +58,25 @@ void tela1(){
     }
   }
   if(instrumentoAtual == 4){
+    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", " Percebi que você se interessou pela Batuta. Com a ajuda do Paço do Frevo compus um frevo único,", "mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo."};
+    int [] delay = {5000,5000,5000};
     println("texto batuta");
-    h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pela Batuta. Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
-    //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
-    //h1("Percebi que você se interessou pela Batuta.", 40, width/2, 100);
-    //h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);
-    //h1("mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo.", 40, width/2, 220);
+    if (fimAnimacao){
+      h1(textos[textos.length-1],40, width/2, 30);
+    }else{
+      fade(textos, delay, 40, width/2, 30);
+    }
   }else{
-        h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
+    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", " Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único,", " mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. "};
+    int [] delay = {5300,7500,6000};
+    
+    if (fimAnimacao){
+      h1(textos[textos.length-1],40, width/2, 30);
+    }else{
+      fade(textos, delay, 40, width/2, 30);
+      
+    }
+    //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
     //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", 40, width/2, 40);
     //h1("Percebi que você se interessou pelo "+instrumento+".", 40, width/2, 100);
     //h1("Com a ajuda do Paço do Frevo compus um frevo único,", 40, width/2, 160);

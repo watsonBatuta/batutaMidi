@@ -155,8 +155,8 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  //fullScreen(P3D);
-  size(800,600,P3D);
+  fullScreen(P3D);
+  //size(800,600,P3D);
   smooth();
   noFill();
   state = 0;

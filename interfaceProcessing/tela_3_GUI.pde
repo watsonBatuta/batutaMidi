@@ -2,9 +2,15 @@ void tela3(){
   background(bg);
   textAlign(CENTER);
   println("___________________TELA 3");
-
-  h1("Estão todos prontos? É hora de afinar os instrumentos. O Bloco está prestes a sair e ninguém pode ficar pra trás!",40, width/2, 30);
-
+  String [] textos = {"Estão todos prontos? É hora de afinar os instrumentos. ", "O Bloco está prestes a sair e ninguém pode ficar pra trás!"};
+  int [] delay = {5000,5000,5000};
+  println("texto batuta");
+  if (fimAnimacao){
+    h1(textos[textos.length-1],40, width/2, 30);
+  }else{
+    fade(textos, delay, 40, width/2, 30);
+  }
+  
   for(int i = 0; i < freviana3.bufferSize() - 1; i++){
     beginShape();
       stroke(10, 10, 255);
@@ -31,7 +37,7 @@ void tela3(){
       println("cronometro");
       background(bg);
       textAlign(CENTER);
-      h1("Estão todos prontos? É hora de afinar os instrumentos. O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 160);
+      h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 160);
       cronometro();
       drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
       h1("Para aumentar o instrumento",15, width/2-510, height/2+260);

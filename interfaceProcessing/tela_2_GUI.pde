@@ -4,9 +4,24 @@ void tela2(){
   background(bg);
   textAlign(CENTER);
   if(instrumentoAtual == 4){
-    h1("Podemos começar nossa experiência? Hoje você é o Maestro. Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.  E se quiser animar a banda balance a batuta o mais rápido que puder.",40, width/2, 30);
+    
+    String [] textos = {"Podemos começar nossa experiência? Hoje você é o Maestro. ", "Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.", "E se quiser animar a banda balance a batuta o mais rápido que puder."};
+    int [] delay = {5000,5000,5000};
+    println("texto batuta");
+    if (fimAnimacao){
+      h1(textos[textos.length-1],40, width/2, 30);
+    }else{
+      fade(textos, delay, 40, width/2, 30);
+    }
   }else{
-    h1("Podemos começar nossa experiência? Você pode me ajudar com a minha música. Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume.", 40 ,width/2, 40);
+    String [] textos = {"Podemos começar nossa experiência? Você pode me ajudar com a minha música. ", "Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume."};
+    int [] delay = {5000,5000,5000};
+    println("texto batuta");
+    if (fimAnimacao){
+      h1(textos[textos.length-1],40, width/2, 30);
+    }else{
+      fade(textos, delay, 40, width/2, 30);
+    }
   }
 
   for(int i = 0; i < freviana2.bufferSize() - 1; i++){
