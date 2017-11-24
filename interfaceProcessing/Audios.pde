@@ -1,4 +1,4 @@
-AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro;
+AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos;
 
 void playSolos(){
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
@@ -48,6 +48,34 @@ void loadFrevianaFiles(){
     freviana3 = minim.loadFile("3.mp3", 2048);
     frevianaPlayable = minim.loadFile("1_3.mp3",2048);
     audioCronometro = minim.loadFile("cronometro.mp3",2048);
+    freviana_agradecimentos = minim.loadFile("freviana_agradecimentos.mp3", 2048);
+}
+
+void rewindAudio(){
+
+  freviana1_0.rewind();
+  freviana1_1.rewind();
+  freviana1_2.rewind();
+  freviana1_3.rewind();
+  freviana1_4.rewind();
+  freviana2_5.rewind();
+  freviana2_1.rewind();
+  freviana2.rewind();
+  freviana3.rewind();
+  frevianaPlayable.rewind();
+  audioCronometro.rewind();
+  freviana_agradecimentos.rewind();
+  soloBateria.rewind();
+  soloSax.rewind();
+  soloTrompete.rewind();
+  soloTrombone.rewind();
+  song_bateria.rewind();
+  song_sax.rewind();
+  song_trompete.rewind();
+  song_trombone.rewind();
+  song.rewind();
+
+
 }
 
 // Carregando os sons dos instrumentos
@@ -68,19 +96,21 @@ void playSong(){
   
   //frevo
   song.play();
+  ableton.sendNoteOn(2,7,127);
+  ableton.sendNoteOff(2,7,127);
   song.mute();
   
   song_bateria.play();
-  //song_bateria.mute();
+  song_bateria.mute();
   
   song_sax.play();
-  //song_sax.mute();
+  song_sax.mute();
   
   song_trompete.play();
-  //song_trompete.mute();
+  song_trompete.mute();
     
   song_trombone.play();
-  //song_trombone.mute();  
+  song_trombone.mute();  
 }
 
 //analisar frames dos audios

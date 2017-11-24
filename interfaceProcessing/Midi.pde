@@ -34,6 +34,11 @@ void controllerChange(int channel, int number, int value) {
       sendAbleton(channel, number, value);
       break;
     }
+    case 4:{
+      instruments.set(channel,value);
+      sendAbleton(channel, number, value);
+      break;
+    }
   } 
 }
 

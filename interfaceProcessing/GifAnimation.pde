@@ -31,9 +31,5 @@ void loadGif(){
   tromboneImage = loadImage("sax_white.png");
   bateriaImage = loadImage("sax_white.png");
   batutaImage = loadImage("sax_white.png");
-  
-
-  
-
 
 }

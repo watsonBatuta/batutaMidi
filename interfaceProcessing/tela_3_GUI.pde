@@ -33,11 +33,11 @@ void tela3(){
   
   if (freviana3.isPlaying()==false) {
     if (played){
-      println("estado 1 da tela mudar de estado");
-      println("cronometro");
+      //println("estado 1 da tela mudar de estado");
+      //println("cronometro");
       background(bg);
       textAlign(CENTER);
-      h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 160);
+      h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 30);
       cronometro();
       drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
       h1("Para aumentar o instrumento",15, width/2-510, height/2+260);

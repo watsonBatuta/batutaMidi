@@ -53,7 +53,7 @@ void tela2(){
   
   if (freviana2.isPlaying()==false) {
     if (played){
-      println("estado da tela mudar de estado");
+      //println("estado da tela mudar de estado");
       state = 3;
       played = false;
       delay(1500);

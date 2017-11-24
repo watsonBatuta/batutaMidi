@@ -5,10 +5,12 @@ int fadein = -100;
 boolean fimAnimacao = false;
 int i = 0;
 boolean first = true;
+PFont font;
 
 void h1(String texto, float size , int x, int y){
   beginShape();
   fill(255);
+
   textSize(size);
   textAlign(CENTER);
   text(texto, x-600, y, 1200, height);
@@ -16,6 +18,15 @@ void h1(String texto, float size , int x, int y){
   
   endShape();
 }
+
+void createFont(){
+  font = createFont("Pacifico.ttf", 32);
+  textFont(font);
+
+}
+
+
+
 
 void fade(String [] textos,int [] timeDelay, float size , int x, int y){
   //i = 0
@@ -76,7 +87,7 @@ void fade(String [] textos,int [] timeDelay, float size , int x, int y){
    }
 }
 
-String time = "10";
+String time = "11";
 int cont = 10;
 int initialTime;
 int interval = 1000;//one second
@@ -87,19 +98,24 @@ void cronometro(){
     
     //background(bg);
     println("time " + time);
-    println("milis "+millis());
+    //println("milis "+millis());
+    println("total " + str (millis() - (initialTime)));
     if (millis() - (initialTime) > interval && int(time) > 0){
-      println("inside if cronometro");
-      time = nf(begin+(cont - int(millis()/1000)), 1);
-      println("time " + time);
+      //println("inside if cronometro");
+      println("time antes da conta " + begin + " / "+ (cont-int(millis()/1000))  + " / " + cont + " / " + time);
+      time = nf(int(time)-1, 1);
+      //time = nf(begin+(cont - int(millis()/1000)), 1);
+      println("time depois da conta " +begin  + " / "+ (cont-int(millis()/1000)) + " / " +cont + " / " + time);
       initialTime = millis();
       
     }
     if(int(time) == 3){
       audioCronometro.play();
-    }else if (int(time) == 0){
+    }
+    if (int(time) == 0){
+      println("00000000000");
       background(bg);
-      time = " ";
+      time = "";
       delay(100);
       state = 4;
       played2 = false;

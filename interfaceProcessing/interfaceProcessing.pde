@@ -87,6 +87,17 @@ void setup() {
   bg = color (0);
   begin = 0;
   
+  textfadesin = true;
+  fadeout = 255;
+  fadein = -100;
+  fimAnimacao = false;
+  i = 0;
+  first = true;
+  
+  createFont();
+  
+
+  
   //Faire afficher en 3D sur tout l'écran
   //fullScreen(P3D);
  
@@ -145,7 +156,7 @@ void setup() {
   background(bg);
   
   // Load audios,
-  minim = new Minim(this);
+  //minim = new Minim(this);
   loadSolos();
 
   loadFrevianaFiles();
@@ -155,8 +166,8 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  fullScreen(P3D);
-  //size(800,600,P3D);
+  //fullScreen(P3D);
+  size(800,600,P3D);
   smooth();
   noFill();
   state = 0;
@@ -165,7 +176,12 @@ void setup() {
   trombone = new MidiBus(this, 3, -1,"1");
   trompete = new MidiBus(this, 2, -1,"2");
   percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 4, "5");
+  ableton = new MidiBus(this, -1, 5, "5");
+  
+  ableton.sendNoteOn(2,8,127);
+  ableton.sendNoteOff(2,8,127);
+  ableton.sendNoteOn(2,8,127);
+  ableton.sendNoteOff(2,8,127);
   
   //batuta = new MidiBus(this, 0, 4,"4");
 
@@ -182,38 +198,73 @@ void setup() {
   
 }
 
+void again(){
+  
+    
+  time = "10";
+  cont = 10;
+  interval = 1000;//one second
+  bg = color (0);
+  begin = 0;
+
+  textfadesin = true;
+  fadeout = 255;
+  fadein = -100;
+  fimAnimacao = false;
+  i = 0;
+  first = true;
+
+  played = false;
+
+  state = 0;
+
+  ableton.sendNoteOn(2,8,127);
+  ableton.sendNoteOff(2,8,127);
+  ableton.sendNoteOn(2,8,127);
+  ableton.sendNoteOff(2,8,127);
+  
+  rewindAudio();
+
+}
+
 void draw() { 
   
   
   switch(state){
     case 0:{
-      
+      //bem vindo batuta
       tela0();
       
       break;
     }
     case 1:{
+      //apresentação da freviana
       tela1();
       break;
     }
     case 2:{
+      //explicação da dinâmica
       tela2();   
       break;
     }case 3:{
+      //afinando os instrumentos
       tela3();
       break;
     }
     case 4:{
+      //dinâmica
       cubos();
       image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
       }else{
         state = 5;
+        played = false;
         //setup();
       }
       break;
     }
     case 5:{
+      //tela de agradecimentos
       tela4();
     }
   }
