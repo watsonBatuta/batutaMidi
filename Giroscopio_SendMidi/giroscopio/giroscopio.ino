@@ -58,7 +58,7 @@ void loop()
   Serial.print(channel);
   Serial.println(" channel ");
   
-  channel = 3;
+  channel = 2 ;
   
  //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   volume = map(shake, 0, 200, 20, 127);
