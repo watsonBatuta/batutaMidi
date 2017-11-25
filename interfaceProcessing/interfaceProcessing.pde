@@ -176,7 +176,7 @@ void setup() {
   trombone = new MidiBus(this, 3, -1,"1");
   trompete = new MidiBus(this, 2, -1,"2");
   percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 5, "5");
+  ableton = new MidiBus(this, -1, 4, "5");
   
   ableton.sendNoteOn(2,8,127);
   ableton.sendNoteOff(2,8,127);

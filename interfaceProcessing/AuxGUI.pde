@@ -42,7 +42,7 @@ void fade(String [] textos,int [] timeDelay, float size , int x, int y){
     textAlign(CENTER); 
     tint(255); 
       
-    fill(255, fadein);
+    fill(255);
     text(textos[i], x-600, y, 1200, height);
     fadein = fadein + 2;
     

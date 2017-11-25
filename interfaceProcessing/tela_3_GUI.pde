@@ -2,6 +2,8 @@ void tela3(){
   background(bg);
   textAlign(CENTER);
   println("___________________TELA 3");
+  
+  //bug esse ponto não ta senddo exibio.
   String [] textos = {"Estão todos prontos? É hora de afinar os instrumentos. ", "O Bloco está prestes a sair e ninguém pode ficar pra trás!"};
   int [] delay = {5000,5000,5000};
   println("texto batuta");

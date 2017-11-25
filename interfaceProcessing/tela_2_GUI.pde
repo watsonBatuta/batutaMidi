@@ -5,8 +5,8 @@ void tela2(){
   textAlign(CENTER);
   if(instrumentoAtual == 4){
     
-    String [] textos = {"Podemos começar nossa experiência? Hoje você é o Maestro. ", "Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.", "E se quiser animar a banda balance a batuta o mais rápido que puder."};
-    int [] delay = {5000,5000,5000};
+    String [] textos = {"Podemos começar nossa experiência?"," Hoje você é o Maestro", "Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.", "E se quiser animar a banda balance a batuta o mais rápido que puder"};
+    int [] delay = {2900,2000,5000,5000};
     println("texto batuta");
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 30);
@@ -14,8 +14,8 @@ void tela2(){
       fade(textos, delay, 40, width/2, 30);
     }
   }else{
-    String [] textos = {"Podemos começar nossa experiência? Você pode me ajudar com a minha música. ", "Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume."};
-    int [] delay = {5000,5000,5000};
+    String [] textos = {"Podemos começar nossa experiência?", "Você pode me ajudar com a minha música", "Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume"};
+    int [] delay = {2900,3000,5000};
     println("texto batuta");
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 30);
@@ -55,6 +55,7 @@ void tela2(){
     if (played){
       //println("estado da tela mudar de estado");
       state = 3;
+      fimAnimacao = false;
       played = false;
       delay(1500);
       

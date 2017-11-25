@@ -3,9 +3,9 @@ void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
   //println(" channel ");
   //print();
-  println("Channel:"+channel);
-  println("Number:"+number);
-  println("Value:"+value);
+  //println("Channel:"+channel);
+  //println("Number:"+number);
+  //println("Value:"+value);
   switch(state){
     case 0:{
       if(value>40){

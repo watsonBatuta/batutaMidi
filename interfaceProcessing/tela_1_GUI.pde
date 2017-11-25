@@ -15,7 +15,7 @@ void tela1(){
             frevianaPlayable.play();
             println(" play 0 ");
             
-            instrumento = "Saxofone";
+            instrumento = "pelo saxofone";
             
             break;
           }
@@ -23,7 +23,7 @@ void tela1(){
             frevianaPlayable = freviana1_1;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
-            instrumento = "trombone";
+            instrumento = "pelo trombone";
             println(" play 1 ");
             break;
           }
@@ -31,7 +31,7 @@ void tela1(){
             frevianaPlayable = freviana1_2;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
-            instrumento = "trompete";
+            instrumento = "pelo trompete";
             println(" play 2 ");
             break;
           }
@@ -39,7 +39,7 @@ void tela1(){
             frevianaPlayable = freviana1_3;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
-            instrumento = "bateria"; 
+            instrumento = "pela bateria"; 
             println(" play 3 ");
             break;
           }
@@ -58,8 +58,8 @@ void tela1(){
     }
   }
   if(instrumentoAtual == 4){
-    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", " Percebi que você se interessou pela Batuta. Com a ajuda do Paço do Frevo compus um frevo único,", "mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo."};
-    int [] delay = {5000,5000,5000};
+    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta", " Percebi que você se interessou pela Batuta", "Com a ajuda do Paço do Frevo compus um frevo único", "mas como sou feita apenas de bits preciso da sua ajuda para orquestrá-lo"};
+    int [] delay = {5000,3000,3500,4000};
     println("texto batuta");
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 30);
@@ -67,8 +67,8 @@ void tela1(){
       fade(textos, delay, 40, width/2, 30);
     }
   }else{
-    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta.", " Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único,", " mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. "};
-    int [] delay = {5300,7500,6000};
+    String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta", " Percebi que você se interessou " + instrumento + " "," Com a ajuda do Paço do Frevo compus um frevo único", " mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo"};
+    int [] delay = {5000,3000,3500,4000};
     
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 30);
