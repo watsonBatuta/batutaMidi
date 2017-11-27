@@ -48,21 +48,28 @@ void loop()
   leakage = 0.99;
   shake = leakyIntegrator(abs(x)/1000.0,leakage);
   // Mostra os valores no serial monitor
-  Serial.print(x/1000.0);
-  Serial.print(" ");
-  Serial.print(shake);
-  Serial.print(" ");
-  Serial.print(leakage);
-  Serial.print(" ");
-  Serial.println();
-  Serial.print(channel);
-  Serial.println(" channel ");
+//  Serial.print(x/1000.0);
+//  Serial.print(" ");
+//  Serial.print(shake);
+//  Serial.print(" ");
+//  Serial.print(leakage);
+//  Serial.print(" ");
+//  Serial.println();
+//  Serial.print(channel);
+//  Serial.println(" channel ");
   
   channel = 2 ;
   
  //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
+  //volume midi value
   volume = map(shake, 0, 200, 20, 127);
   volume = (int) constrain(volume, 0,127);
+  Serial.print(channel);
+  Serial.print(" ");
+  Serial.print(volume);
+  Serial.print(" ");
+  Serial.print("aloha");
+  Serial.println();
   controlChange(channel,0,volume);
   MidiUSB.flush();
 

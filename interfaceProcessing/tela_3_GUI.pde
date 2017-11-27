@@ -4,20 +4,20 @@ void tela3(){
   println("___________________TELA 3");
   
   //bug esse ponto não ta senddo exibio.
-  String [] textos = {"Estão todos prontos? É hora de afinar os instrumentos. ", "O Bloco está prestes a sair e ninguém pode ficar pra trás!"};
-  int [] delay = {5000,5000,5000};
+  String [] textos = {"Estão todos prontos?","O Bloco está prestes a sair e ninguém pode ficar pra trás!", "É hora de afinar os instrumentos..."};
+  int [] delay = {2000,4000,2500};
   println("texto batuta");
   if (fimAnimacao){
-    h1(textos[textos.length-1],40, width/2, 30);
+    h1(textos[textos.length-1],40, width/2, 230);
   }else{
-    fade(textos, delay, 40, width/2, 30);
+    fade(textos, delay, 40, width/2, 230);
   }
   
   for(int i = 0; i < freviana3.bufferSize() - 1; i++){
     beginShape();
-      stroke(10, 10, 255);
-      line(i, height/2 -50   + freviana3.left.get(i)*50,  i+1, height/2-50  + freviana3.left.get(i+1)*50);
-      line(i, height/2 + + freviana3.right.get(i)*50, i+1, height/2 + freviana3.right.get(i+1)*50);
+      stroke(255, 9, 99);
+      line(i, height/2 -50   + freviana3.left.get(i)*50,  i+25, height/2-50  + freviana3.left.get(i+1)*50);
+      //line(i, height/2 + + freviana3.right.get(i)*50, i+1, height/2 + freviana3.right.get(i+1)*50);
       fill(225);
     endShape();
   }
@@ -39,7 +39,7 @@ void tela3(){
       //println("cronometro");
       background(bg);
       textAlign(CENTER);
-      h1("O Bloco está prestes a sair e ninguém pode ficar pra trás!", 40 ,width/2, 30);
+      h1("É hora de afinar os instrumentos...", 40 ,width/2, 230);
       cronometro();
       drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
       h1("Para aumentar o instrumento",15, width/2-510, height/2+260);

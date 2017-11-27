@@ -62,18 +62,18 @@ void tela1(){
     int [] delay = {5000,3000,3500,4000};
     println("texto batuta");
     if (fimAnimacao){
-      h1(textos[textos.length-1],40, width/2, 30);
+      h1(textos[textos.length-1],40, width/2, 230);
     }else{
-      fade(textos, delay, 40, width/2, 30);
+      fade(textos, delay, 100, width/2, 230);
     }
   }else{
     String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta", " Percebi que você se interessou " + instrumento + " "," Com a ajuda do Paço do Frevo compus um frevo único", " mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo"};
     int [] delay = {5000,3000,3500,4000};
     
     if (fimAnimacao){
-      h1(textos[textos.length-1],40, width/2, 30);
+      h1(textos[textos.length-1],40, width/2, 230);
     }else{
-      fade(textos, delay, 40, width/2, 30);
+      fade(textos, delay, 40, width/2, 230);
       
     }
     //h1("Olá, sou a Freviana, a inteligência artificial por trás do Batuta. Percebi que você se interessou pelo " + instrumento + ". Com a ajuda do Paço do Frevo compus um frevo único, mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo. ",40, width/2, 30);
@@ -90,9 +90,9 @@ void tela1(){
     {
       beginShape();
       fill(225);
-      stroke(10, 10, 255);
-      line(i, height/2 -50   + frevianaPlayable.left.get(i)*50,  i+1, height/2-50  + frevianaPlayable.left.get(i+1)*50);
-      line(i, height/2 + + frevianaPlayable.right.get(i)*50, i+1, height/2 + frevianaPlayable.right.get(i+1)*50);
+      stroke(255, 9, 99);
+      line(i, height/2 -50   + frevianaPlayable.left.get(i)*50,  i+25, height/2-50  + frevianaPlayable.left.get(i+1)*50);
+      //line(i, height/2 + + frevianaPlayable.right.get(i)*50, i+1, height/2 + frevianaPlayable.right.get(i+1)*50);
       endShape();
     }}catch(Exception e){println(e);};
   

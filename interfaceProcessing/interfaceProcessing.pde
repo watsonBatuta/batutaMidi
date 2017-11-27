@@ -93,6 +93,7 @@ void setup() {
   fimAnimacao = false;
   i = 0;
   first = true;
+  contInstrumento = 0;
   
   createFont();
   
@@ -166,17 +167,18 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  //fullScreen(P3D);
-  size(800,600,P3D);
+  fullScreen(P3D);
+  //size(1366,768,P3D);
   smooth();
   noFill();
   state = 0;
   // sax, trombone,trompete, percussao, batuta; 
-  sax = new MidiBus(this, 0, -1,"0");
-  trombone = new MidiBus(this, 3, -1,"1");
-  trompete = new MidiBus(this, 2, -1,"2");
-  percussao = new MidiBus(this, 1, -1,"3");
+  //sax = new MidiBus(this, 0, -1,"0");
+  //trombone = new MidiBus(this, 3, -1,"1");
+  //trompete = new MidiBus(this, 2, -1,"2");
+  //percussao = new MidiBus(this, 1, -1,"3");
   ableton = new MidiBus(this, -1, 4, "5");
+  createSerial();
   
   ableton.sendNoteOn(2,8,127);
   ableton.sendNoteOff(2,8,127);
@@ -185,7 +187,7 @@ void setup() {
   
   //batuta = new MidiBus(this, 0, 4,"4");
 
-  sax.list();
+  //sax.list();
   
   logo = loadImage("logoBatuta.png");
   softex = loadImage("logoSoftex.png");
@@ -213,6 +215,7 @@ void again(){
   fimAnimacao = false;
   i = 0;
   first = true;
+  contInstrumento = 0;
 
   played = false;
 
@@ -227,7 +230,8 @@ void again(){
 
 }
 
-void draw() { 
+void draw() {
+  readSerial();
   
   
   switch(state){
@@ -264,8 +268,14 @@ void draw() {
       break;
     }
     case 5:{
-      //tela de agradecimentos
+      //tela do obrigado por participar
       tela4();
+      break;
+    }
+    case 6:{
+      //tela dos agradecimentos e créditos
+      tela5();
+      break;
     }
   }
 }

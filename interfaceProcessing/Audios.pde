@@ -98,7 +98,7 @@ void playSong(){
   song.play();
   ableton.sendNoteOn(2,7,127);
   ableton.sendNoteOff(2,7,127);
-  song.mute();
+  //song.mute();
   
   song_bateria.play();
   song_bateria.mute();

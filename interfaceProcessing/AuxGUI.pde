@@ -20,7 +20,7 @@ void h1(String texto, float size , int x, int y){
 }
 
 void createFont(){
-  font = createFont("Pacifico.ttf", 32);
+  font = createFont("computer_7.ttf", 32);
   textFont(font);
 
 }

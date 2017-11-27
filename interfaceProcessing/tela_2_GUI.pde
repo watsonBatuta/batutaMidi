@@ -5,30 +5,30 @@ void tela2(){
   textAlign(CENTER);
   if(instrumentoAtual == 4){
     
-    String [] textos = {"Podemos começar nossa experiência?"," Hoje você é o Maestro", "Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.", "E se quiser animar a banda balance a batuta o mais rápido que puder"};
-    int [] delay = {2900,2000,5000,5000};
+    String [] textos = {" Hoje você é o Maestro", "Aponte a batuta pra cima e pra baixo e aumente ou diminua o volume de todos.", "E se quiser animar a banda balance a batuta o mais rápido que puder"};
+    int [] delay = {2000,5000,5000};
     println("texto batuta");
     if (fimAnimacao){
-      h1(textos[textos.length-1],40, width/2, 30);
+      h1(textos[textos.length-1],40, width/2, 230);
     }else{
-      fade(textos, delay, 40, width/2, 30);
+      fade(textos, delay, 40, width/2, 230);
     }
   }else{
-    String [] textos = {"Podemos começar nossa experiência?", "Você pode me ajudar com a minha música", "Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume"};
-    int [] delay = {2900,3000,5000};
+    String [] textos = {"Você pode me ajudar com a música", "Balance seu objeto pra cima e pra baixo e aumente ou diminua o volume"};
+    int [] delay = {3000,5000};
     println("texto batuta");
     if (fimAnimacao){
-      h1(textos[textos.length-1],40, width/2, 30);
+      h1(textos[textos.length-1],40, width/2, 230);
     }else{
-      fade(textos, delay, 40, width/2, 30);
+      fade(textos, delay, 40, width/2, 230);
     }
   }
 
   for(int i = 0; i < freviana2.bufferSize() - 1; i++){
       beginShape();
-      stroke(10, 10, 255);
-      line(i, height/2 -50   + freviana2.left.get(i)*50,  i+1, height/2-50  + freviana2.left.get(i+1)*50);
-      line(i, height/2 + + freviana2.right.get(i)*50, i+1, height/2 + freviana2.right.get(i+1)*50);
+      stroke(255, 9, 99);
+      line(i, height/2 -50   + freviana2.left.get(i)*50,  i+25, height/2-50  + freviana2.left.get(i+1)*50);
+      //line(i, height/2 + + freviana2.right.get(i)*50, i+1, height/2 + freviana2.right.get(i+1)*50);
       fill(225);
       endShape();
     }
