@@ -167,11 +167,13 @@ void setup() {
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   instruments = new IntList(0,0,0,0,0);
 
-  fullScreen(P3D);
+  //fullScreen(P3D);
   //size(1366,768,P3D);
+  size(400,400,P3D);
+
   smooth();
   noFill();
-  state = 0;
+  state = 6;
   // sax, trombone,trompete, percussao, batuta; 
   //sax = new MidiBus(this, 0, -1,"0");
   //trombone = new MidiBus(this, 3, -1,"1");
@@ -202,7 +204,7 @@ void setup() {
 
 void again(){
   
-    
+  delay(10000);
   time = "10";
   cont = 10;
   interval = 1000;//one second
@@ -275,6 +277,7 @@ void draw() {
     case 6:{
       //tela dos agradecimentos e créditos
       tela5();
+      //again();
       break;
     }
   }
