@@ -122,7 +122,7 @@ void loop()
 {
   // Atualiza os valores de X, Y e Z
   getGyroValues();
-  //Acelerometro();
+  Acelerometro();
   //leakage = 1 - (analogRead(A0)/1023.0);
   leakage = 0.99;
   shake = leakyIntegrator(abs(x)/1000.0,leakage);

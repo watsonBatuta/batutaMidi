@@ -62,7 +62,6 @@ void readSerial(){
   
   try{
     if (contInstrumento < instrumentosSerial.size()){
-    //println("ler serial ");
     String inBuffer = instrumentosSerial.get(contInstrumento).readString();
       if (inBuffer != null) {
         String[] a = split(inBuffer, " ");
@@ -75,6 +74,8 @@ void readSerial(){
           print("2 "+a[2]+"3 "+a[3]+"4"+a[4]);
         }
         contInstrumento += + 1;//  responsável por andar entre os intrumentos;
+      }else{
+        println("Sem buffer");
       }
     }else{
       println("Zerar contador");
@@ -129,7 +130,11 @@ void createSerial(){
     try{
       myPort = new Serial(this, Serial.list()[i], 115200);
       myPort.clear();
-    }catch(Exception e){println(e);exit();}
+    }catch(Exception e){
+      println(e);
+      exit();
+  
+    }
     
     instrumentosSerial.add(myPort);
     

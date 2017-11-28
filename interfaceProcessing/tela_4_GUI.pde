@@ -12,7 +12,7 @@ void tela4(){
       }else{
         println("play freviana");
         freviana_agradecimentos.play();
-        freviana_agradecimentos.setGain(5);
+        freviana_agradecimentos.setGain(0);
         played =true;
       }
     }

@@ -54,7 +54,7 @@ void tela1(){
           }
         }
       //frevianaPlayable.play();
-      frevianaPlayable.setGain(10);
+      frevianaPlayable.setGain(0);
       played =true;
     }
   }
@@ -65,7 +65,7 @@ void tela1(){
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 230);
     }else{
-      fade(textos, delay, 100, width/2, 230);
+      fade(textos, delay, 40, width/2, 230);
     }
   }else{
     String [] textos = {"Olá, sou a Freviana, a inteligência artificial por trás do Batuta", " Percebi que você se interessou " + instrumento + " "," Com a ajuda do Paço do Frevo compus um frevo único", " mas como sou feita apenas de bits preciso da sua ajuda para tocá-lo"};

@@ -55,7 +55,7 @@ void tela3(){
     }else{
       println("play freviana");
       freviana3.play();
-      freviana3.setGain(5);
+      freviana3.setGain(0);
       played =true;
       delay(1000);
     }
