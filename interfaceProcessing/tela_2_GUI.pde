@@ -63,7 +63,7 @@ void tela2(){
     }else{
       println("play freviana");
       freviana2.play();
-      freviana2.setGain(-20);
+      freviana2.setGain(5);
       played =true;
     }
   }

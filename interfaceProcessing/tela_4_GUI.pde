@@ -6,12 +6,13 @@ void tela4(){
     if (freviana_agradecimentos.isPlaying()==false) {
       if (played){
         //setup();
-        again();
+        state = 6;
+        played = false;
                 
       }else{
         println("play freviana");
         freviana_agradecimentos.play();
-        freviana_agradecimentos.setGain(-20);
+        freviana_agradecimentos.setGain(5);
         played =true;
       }
     }

@@ -60,24 +60,30 @@ void readSerial(){
   //  }
   //}
   
-  if (contInstrumento < instrumentosSerial.size()){
+  try{
+    if (contInstrumento < instrumentosSerial.size()){
+    //println("ler serial ");
     String inBuffer = instrumentosSerial.get(contInstrumento).readString();
-    if (inBuffer != null) {
-      String[] a = split(inBuffer, " ");
-      println(a[0]);
-      println(a[1]);
-      channel = int(a[0]);
-      value = int(a[1]);      
+      if (inBuffer != null) {
+        String[] a = split(inBuffer, " ");
+        println(a[0]);
+        println(a[1]);
+        channel = int(a[0]);
+        value = int(a[1]);
+        if(a[0] == "4"){
+          println("batuta");
+          print("2 "+a[2]+"3 "+a[3]+"4"+a[4]);
+        }
+        contInstrumento += + 1;//  responsável por andar entre os intrumentos;
+      }
+    }else{
+      println("Zerar contador");
+      contInstrumento = 0;
     }
-  }else if(contInstrumento >= instrumentosSerial.size()){
-    println("Zerar contador");
-    contInstrumento = 0;
+  }catch(Exception x){
+    println(x);
   }
-  else{
-    contInstrumento += + 1;//  responsável por andar entre os intrumentos;
-    println("Somar contador");
-  }
-  
+   
   switch(state){
     case 0:{
       if(value>40){
@@ -120,7 +126,11 @@ void createSerial(){
   println(Serial.list());
   for (int i = 0; i < Serial.list().length; i++){
     println(Serial.list()[i]);
-    myPort = new Serial(this, Serial.list()[i], 38400);
+    try{
+      myPort = new Serial(this, Serial.list()[i], 115200);
+      myPort.clear();
+    }catch(Exception e){println(e);exit();}
+    
     instrumentosSerial.add(myPort);
     
   }

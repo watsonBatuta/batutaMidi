@@ -23,6 +23,7 @@ void tela1(){
             frevianaPlayable = freviana1_1;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
+            frevianaPlayable.setGain(5);
             instrumento = "pelo trombone";
             println(" play 1 ");
             break;
@@ -53,7 +54,7 @@ void tela1(){
           }
         }
       //frevianaPlayable.play();
-      frevianaPlayable.setGain(-20);
+      frevianaPlayable.setGain(10);
       played =true;
     }
   }

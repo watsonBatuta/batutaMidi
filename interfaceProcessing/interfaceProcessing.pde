@@ -171,13 +171,13 @@ void setup() {
   //size(1366,768,P3D);
   smooth();
   noFill();
-  state = 0;
+  state = 6;
   // sax, trombone,trompete, percussao, batuta; 
   //sax = new MidiBus(this, 0, -1,"0");
   //trombone = new MidiBus(this, 3, -1,"1");
   //trompete = new MidiBus(this, 2, -1,"2");
   //percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 4, "5");
+  ableton = new MidiBus(this, -1, 9, "5");
   createSerial();
   
   ableton.sendNoteOn(2,8,127);
@@ -187,7 +187,7 @@ void setup() {
   
   //batuta = new MidiBus(this, 0, 4,"4");
 
-  //sax.list();
+  sax.list();
   
   logo = loadImage("logoBatuta.png");
   softex = loadImage("logoSoftex.png");
@@ -231,18 +231,21 @@ void again(){
 }
 
 void draw() {
-  readSerial();
+  //readSerial();
   
+  readSerial();
   
   switch(state){
     case 0:{
       //bem vindo batuta
       tela0();
       
+      
       break;
     }
     case 1:{
       //apresentação da freviana
+      
       tela1();
       break;
     }
