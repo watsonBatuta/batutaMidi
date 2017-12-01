@@ -36,7 +36,7 @@ int begin = 0;
 
 int state;
 
-PImage logo, softex, ibm, paco;
+PImage logo, softex, ibm, paco, louco;
 Gif ai;
 //Config. para cubos
 
@@ -194,6 +194,7 @@ void setup() {
   softex = loadImage("logoSoftex.png");
   ibm = loadImage("logoIBM.png");
   paco = loadImage("logoPaco.png");
+  louco = loadImage("louco.png");
   ai = new Gif(this, "ai_gif.gif");
   ai.loop();
   loadGif();

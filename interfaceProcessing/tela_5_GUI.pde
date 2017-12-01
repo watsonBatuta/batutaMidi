@@ -39,6 +39,13 @@ void tela5(){
       h1("Teleport", 18, width-300, (height/2)+120);
       h1("L.O.U.Co", 18, width-300, (height/2)+140);
       h1("D'accord", 18, width-300, (height/2)+160);
+      
+      h1("Desenvolvedores",20, width/2+200, height/2);
+      
+      h1("Delando Júnior", 18, width-1000, (height/2)+240);
+      h1("Gleybson Farias", 18, width, (height/2)+240);
+      h1("Patrick Gouy", 18, width-300, (height/2)+240);
+       
 
      
   
