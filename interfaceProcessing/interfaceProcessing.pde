@@ -42,9 +42,9 @@ Gif ai;
 
 // Variables qui définissent les "zones" du spectre
 // Par exemple, pour les basses, on prend seulement les premières 4% du spectre total
-float specLow = 0.3; // 3%
-float specMid = 0.20;  // 12.5%
-float specHi = 0.50;   // 20%sa
+float specLow = 0.3; // 0.3%
+float specMid = 0.20;  // 0.2%
+float specHi = 0.50;   // 0.5
 
 // Il reste donc 64% du spectre possible qui ne sera pas utilisé. 
 // Ces valeurs sont généralement trop hautes pour l'oreille humaine de toute facon.
@@ -178,7 +178,7 @@ void setup() {
   //trombone = new MidiBus(this, 3, -1,"1");
   //trompete = new MidiBus(this, 2, -1,"2");
   //percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 9, "5");
+  ableton = new MidiBus(this, -1, "Ableton", "5");
   createSerial();
   
   ableton.sendNoteOn(2,8,127);
@@ -232,16 +232,13 @@ void again(){
 }
 
 void draw() {
-  //readSerial();
-  
+ 
   readSerial();
   
   switch(state){
     case 0:{
       //bem vindo batuta
-      tela0();
-      
-      
+      tela0();      
       break;
     }
     case 1:{
@@ -262,7 +259,7 @@ void draw() {
     case 4:{
       //dinâmica
       cubos();
-      image(ai, width/2-40 , height/2-25, 75,50);
+      //image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
       }else{
         state = 5;

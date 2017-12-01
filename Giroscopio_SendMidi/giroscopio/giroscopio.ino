@@ -2,7 +2,7 @@
 // Adaptacoes : Arduino e Cia
 
 #include <Wire.h>
-#include "MIDIUSB.h"
+
 
 #define CTRL_REG1 0x20
 #define CTRL_REG2 0x21
@@ -55,6 +55,7 @@ void setup()
 
   // Aguarda a resposta do sensor
   leaky[1] = 0;
+  Serial.println("teste");
 
 }
 
@@ -122,7 +123,7 @@ void loop()
 {
   // Atualiza os valores de X, Y e Z
   getGyroValues();
-  Acelerometro();
+  //Acelerometro();
   //leakage = 1 - (analogRead(A0)/1023.0);
   leakage = 0.99;
   shake = leakyIntegrator(abs(x)/1000.0,leakage);
@@ -141,7 +142,7 @@ void loop()
   
  //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   //volume midi value
-  volume = map(shake, 0, 200, 20, 127);
+  volume = map(shake, 0, 200, 0, 127);
   volume = (int) constrain(volume, 0,127);
  // volumeAcelerometro = map(Xg, -1.0, 1, 10, 127);
   //volumeAcelerometro = (int) constrain(volumeAcelerometro, 0,127);
@@ -162,21 +163,6 @@ void loop()
 
   // Aguarda 100ms e reinicia o processo
   //delay(10);
-}
-
-void controlChange(byte channel, byte control, byte value) {
-  midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
-  MidiUSB.sendMIDI(event);
-}
-
-void noteOn(byte channel, byte pitch, byte velocity) {
-  midiEventPacket_t noteOn = {0x09, 0x90 | channel, pitch, velocity};
-  MidiUSB.sendMIDI(noteOn);
-}
-
-void noteOff(byte channel, byte pitch, byte velocity) {
-  midiEventPacket_t noteOff = {0x08, 0x80 | channel, pitch, velocity};
-  MidiUSB.sendMIDI(noteOff);
 }
 
 

@@ -136,6 +136,8 @@ void loadFft(){
 void loadForward(){
    //'frames' da musica
    fft.forward(song.mix);
+   //song.skip(50);
+
    
    //'frames' dos instrumentos
    fft_sax.forward(song_sax.mix);

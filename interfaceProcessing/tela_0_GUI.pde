@@ -17,6 +17,6 @@ void tela0(){
   
   image(softex, width/2+50, height-75, 130, 60);
   image(ibm, width/2+200, height-75, 80, 70);
-  //image(paco, width/2+300, height-80, 50,70);
+  image(paco, width/2+300, height-80, 50,70);
   
 }

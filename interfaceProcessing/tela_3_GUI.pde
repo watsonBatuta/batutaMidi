@@ -21,16 +21,16 @@ void tela3(){
       fill(225);
     endShape();
   }
-
-  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  image(ai, width/2-50, 120, 100,100);
+  drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
   h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
   h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
   h1("Para aumentar a banda",15, width/2-10, height/2+260);
   drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
   h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
   h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   
   if (freviana3.isPlaying()==false) {
@@ -41,16 +41,17 @@ void tela3(){
       textAlign(CENTER);
       h1("É hora de afinar os instrumentos...", 40 ,width/2, 230);
       cronometro();
-      drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+      image(ai, width/2-50, 120, 100,100);
+      drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
       h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-      drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+      drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
       h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-      drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+      drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
       h1("Para aumentar a banda",15, width/2-10, height/2+260);
       drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
       h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-      drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
-      h1("Para aumentar o instrumento",15, width/2+490, height/2+260);    
+      drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
+      h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
               
     }else{
       println("play freviana");

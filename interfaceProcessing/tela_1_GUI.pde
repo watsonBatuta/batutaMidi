@@ -64,6 +64,7 @@ void tela1(){
     println("texto batuta");
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 230);
+      //image(ai, width/2 , height/2, 75,50);
     }else{
       fade(textos, delay, 40, width/2, 230);
     }
@@ -99,15 +100,16 @@ void tela1(){
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
 
-  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  image(ai, width/2-50, 120, 100,100);
+  drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
   h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
   h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
   h1("Para aumentar a banda",15, width/2-10, height/2+260);
   drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
   h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
   h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   //instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
   //instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);

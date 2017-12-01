@@ -25,10 +25,10 @@ void tela4(){
   }
   
   //h1("Agradecimentos", 40, width/2, height-700);
-  
+  image(ai, width/2-50, 120, 100,100);
   image(softex, width/2+50, height-75, 130, 60);
   image(ibm, width/2+200, height-75, 80, 70);
-  //image(paco, width/2+300, height-80, 50,70);
+  image(paco, width/2+300, height-80, 50,70);
   image(logo, width-1100, height-70);
   
   
