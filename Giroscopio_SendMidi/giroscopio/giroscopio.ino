@@ -44,18 +44,18 @@ void setup()
 {
   Wire.begin();
   Serial.begin(115200);
-
-  Serial.println("Inicializando o L3G4200D");
-  Wire.beginTransmission(ADXAddress);
-  Wire.write(Register_2D);
-  Wire.write(8);                //measuring enable
-  Wire.endTransmission();     // stop transmitting
-  // Configura o L3G4200 para 200, 500 ou 2000 graus/seg
-  setupL3G4200D(2000);
-
-  // Aguarda a resposta do sensor
-  leaky[1] = 0;
-  Serial.println("teste");
+  while (!Serial) {
+    // wait for serial port to connect. Needed for native USB
+    Serial.println("Inicializando o L3G4200D");
+    Wire.beginTransmission(ADXAddress);
+    Wire.write(Register_2D);
+    Wire.write(8);                //measuring enable
+    Wire.endTransmission();     // stop transmitting
+    // Configura o L3G4200 para 200, 500 ou 2000 graus/seg
+    setupL3G4200D(2000);
+    // Aguarda a resposta do sensor
+    leaky[1] = 0;
+  }
 
 }
 
@@ -138,7 +138,7 @@ void loop()
 //  Serial.print(channel);
 //  Serial.println(" channel ");
   
-  channel = 2;
+  channel = 4;
   
  //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
   //volume midi value

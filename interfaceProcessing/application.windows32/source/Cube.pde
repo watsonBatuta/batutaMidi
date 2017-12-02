@@ -1,4 +1,4 @@
-
+float saxShake, tromboneShake, trompeteShake, percussaoShake;
 //Classe pour les cubes qui flottent dans l'espace
 class Cube {
   //Position Z de "spawn" et position Z maximale
@@ -122,7 +122,8 @@ void cubos(){
    
   //Volume pour toutes les fréquences à ce moment, avec les sons plus haut plus importants.
   //Cela permet à l'animation d'aller plus vite pour les sons plus aigus, qu'on remarque plus
-  float scoreGlobal = 0.66*scoreLow + 0.8*scoreMid + 1*scoreHi;
+  //float scoreGlobal = 0.66*scoreLow + 0.8*scoreMid + 1*scoreHi;
+  float scoreGlobal = (0.66*scoreLow + 0.8*scoreMid + 1*scoreHi)*1.5;
   
   //Couleur subtile de background
   background(scoreLow/100, scoreMid/100, scoreHi/100);
@@ -153,40 +154,54 @@ void cubos(){
 
     
   //delay(100);
-  
+  saxShake = instruments.get(0);
+  //saxShake = 127;
+  tromboneShake = instruments.get(1);
+  trompeteShake = instruments.get(2);
+  percussaoShake = instruments.get(3);
   
   for(int i = 1; i < fft.specSize(); i++)
   {
     //linha sax
     //ligne inferieure gauche
-    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));             
+    
+    float bandValueTrombone = fft_trombone.getBand(i);      
     //Selection de la couleur en fonction des forces des différents types de sons
-    stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
-    strokeWeight(1 + (scoreGlobal/100));
+   // stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
+    stroke((2*tromboneShake)+scoreLow, (2*tromboneShake)+scoreMid, 255-tromboneShake*2, 40+tromboneShake*2);
+    strokeWeight(2.5+tromboneShake/100);
     
-    //float bandValueSax = 100 ;
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), 0, height-(bandValueSax*heightMult), dist*i);  // vertical
-    line((previousBandValueSax*heightMult), height, dist*(i-1), (bandValueSax*heightMult), height, dist*i); // horizontal
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), (bandValueSax*heightMult), height, dist*i); // diagonal
-    
-    
-    //linha percussao
-    float bandValuePercussao = fft_bateria.getBand(i);
+    line(0, height-(previousBandValueTrombone*heightMult), dist*(i-1), 0, height-(bandValueTrombone*heightMult), dist*i);  // vertical
+    line((previousBandValueTrombone*heightMult), height, dist*(i-1), (bandValueTrombone*heightMult), height, dist*i); // horizontal
+    line(0, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult), height, dist*i); // diagonal
+
+
+    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50)); 
+    stroke((2*saxShake)+scoreLow, (2*saxShake)+scoreMid, 255-saxShake*2, 40+saxShake*2);
+    strokeWeight(2.5+saxShake/100);
     //ligne superieure droite
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200, height-(bandValuePercussao*heightMult), dist*i);
-    line(width/2+200-(previousBandValuePercussao*heightMult), height, dist*(i-1), width/2+200-(bandValuePercussao*heightMult), height, dist*i);
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200-(bandValuePercussao*heightMult),height, dist*i);
+    line(width/2+200, height-(previousBandValueSax*heightMult), dist*(i-1), width/2+200, height-(bandValueSax*heightMult), dist*i);
+    line(width/2+200-(previousBandValueSax*heightMult), height, dist*(i-1), width/2+200-(bandValueSax*heightMult), height, dist*i);
+    line(width/2+200, height-(previousBandValueSax*heightMult), dist*(i-1), width/2+200-(bandValueSax*heightMult),height, dist*i);
     
-    //linha trombone
-    float bandValueTrombone = fft_trombone.getBand(i);
+    //linha Sax
+
+    
+
+
+    float bandValuePercussao = fft_bateria.getBand(i);
+    stroke((2*percussaoShake)+scoreLow, (2*percussaoShake)+scoreMid, 255-2*percussaoShake, 40+percussaoShake*2);
+    strokeWeight(2.5+percussaoShake/100);
     ////ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
-    line((previousBandValueTrombone*heightMult)+width/2-200, height, dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2-200, height-(bandValuePercussao*heightMult), dist*i);
+    line((previousBandValuePercussao*heightMult)+width/2-200, height, dist*(i-1), (bandValuePercussao*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValuePercussao*heightMult), dist*(i-1), (bandValuePercussao*heightMult)+width/2-200, height, dist*i);
     
     //linha trompete
-    ///float bandValueTrompete = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrompete = fft_trompete.getBand(i);
+    float bandValueTrompete = fft_trompete.getBand(i) * (1 + (i/50)); 
+    stroke(trompeteShake*2+scoreLow, (trompeteShake*2)+scoreMid,255-2*trompeteShake, 40+trompeteShake*2);
+    strokeWeight(2.5+trompeteShake/100);
+    
     //ligne inferieure droite
     line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
     line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
@@ -197,6 +212,7 @@ void cubos(){
     previousBandValueTrombone = bandValueTrombone;
     previousBandValuePercussao = bandValuePercussao;
     previousBandValueSax = bandValueSax;
+
 
 }
   

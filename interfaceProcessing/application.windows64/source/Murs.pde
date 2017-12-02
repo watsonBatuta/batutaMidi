@@ -42,6 +42,7 @@ class Mur {
     if (intensity > 100) intensity = 100;
     scale(sizeX*(intensity/100), sizeY*(intensity/100), 20);
     
+    
     //Création de la "boite"
     box(1);
     popMatrix();
@@ -63,9 +64,12 @@ class Mur {
     popMatrix();
     
     //Déplacement Z
+    // reduz a velocidade dos muros, mas não altera a música.
     z+= (pow((scoreGlobal/150), 2));
+
     if (z >= maxZ) {
       z = startingZ;  
     }
+    
   }
 }

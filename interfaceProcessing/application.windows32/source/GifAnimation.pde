@@ -26,10 +26,10 @@ void loadGif(){
   bateriaGif.loop();
   batutaGif.loop();
 
-  saxImage = loadImage("sax_white.png");
-  trompeteImage = loadImage("sax_white.png");
-  tromboneImage = loadImage("sax_white.png");
-  bateriaImage = loadImage("sax_white.png");
-  batutaImage = loadImage("sax_white.png");
+  saxImage = loadImage("icone-sax.png");
+  trompeteImage = loadImage("icone-trompete.png");
+  tromboneImage = loadImage("icone-trombone.png");
+  bateriaImage = loadImage("icone-bateria.png");
+  batutaImage = loadImage("icone-batuta.png");
 
 }

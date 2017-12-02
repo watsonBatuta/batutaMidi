@@ -1,4 +1,6 @@
-AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos,frevo_agradecimento;
+
+AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos, frevo_agradecimento;
+
 
 void playSolos(){
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
@@ -6,10 +8,10 @@ void playSolos(){
   if (soloBateria.isPlaying()) {
     println("Estou aqui");
     println(instruments.get(3));
-    soloSax.setGain(map(instruments.get(0),0,127,-50,10));
-    soloTrombone.setGain(map(instruments.get(1),0,127,-50,10));
-    soloTrompete.setGain(map(instruments.get(2),0,127,-50,10));
-    soloBateria.setGain(map(instruments.get(3),0,127,-50,0));
+    soloSax.setGain(map(instruments.get(0),0,127,-50,0));
+    soloTrombone.setGain(map(instruments.get(1),0,127,-50,0));
+    soloTrompete.setGain(map(instruments.get(2),0,127,-50,0));
+    soloBateria.setGain(map(instruments.get(3),0,127,-50,-5));
     
   }else {
     soloBateria.play();
@@ -49,7 +51,8 @@ void loadFrevianaFiles(){
     frevianaPlayable = minim.loadFile("1_3.mp3",2048);
     audioCronometro = minim.loadFile("cronometro.mp3",2048);
     freviana_agradecimentos = minim.loadFile("freviana_agradecimentos.mp3", 2048);
-    frevo_agradecimento = minim.loadFile("temcoisanofrevocut.mp3", 2048);
+    frevo_agradecimento = minim.loadFile("temcoisanofrevocut.mp3",2048);
+
 }
 
 void rewindAudio(){
@@ -133,6 +136,8 @@ void loadFft(){
 void loadForward(){
    //'frames' da musica
    fft.forward(song.mix);
+   //song.skip(50);
+
    
    //'frames' dos instrumentos
    fft_sax.forward(song_sax.mix);

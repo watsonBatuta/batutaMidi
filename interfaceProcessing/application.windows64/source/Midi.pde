@@ -61,23 +61,34 @@ void readSerial(){
   //}
   
   try{
+    //println("size "+instrumentosSerial.size());
     if (contInstrumento < instrumentosSerial.size()){
-    println("ler serial ");
-    String inBuffer = instrumentosSerial.get(contInstrumento).readString();
+      //println("2 "+contInstrumento);
+      String inBuffer = instrumentosSerial.get(contInstrumento).readString();
+      //println("3");
       if (inBuffer != null) {
+        if(inBuffer.equals("led")){instrumentosSerial.remove(contInstrumento);}
         String[] a = split(inBuffer, " ");
         println(a[0]);
         println(a[1]);
         channel = int(a[0]);
-        value = int(a[1]); 
-        contInstrumento += + 1;//  responsável por andar entre os intrumentos;
+        value = int(a[1]);
+        if(a[0] == "4"){
+          println("batuta");
+          print("2 "+a[2]+"3 "+a[3]+"4"+a[4]);
+        }
+        contInstrumento += 1;//  responsável por andar entre os intrumentos;
+      }else{
+        println("Sem buffer  "+instrumentosSerial.get(contInstrumento));
+        contInstrumento += 1;
       }
     }else{
-      println("Zerar contador");
+      //println("Zerar contador");
       contInstrumento = 0;
     }
   }catch(Exception x){
     println(x);
+    //contInstrumento += 1;
   }
    
   switch(state){
@@ -87,7 +98,6 @@ void readSerial(){
         instruments.set(channel,value);
         println(channel);
         instrumentoAtual = channel;
-        delay(1000);
         
       }
       break;
@@ -122,8 +132,22 @@ void createSerial(){
   println(Serial.list());
   for (int i = 0; i < Serial.list().length; i++){
     println(Serial.list()[i]);
-    myPort = new Serial(this, Serial.list()[i], 38400);
-    instrumentosSerial.add(myPort);
+    try{
+      //if(Serial.list()[i].equals("COM46")||Serial.list()[i].equals("COM44")||Serial.list()[i].equals("COM24")||Serial.list()[i].equals("COM26"))
+      myPort = new Serial(this, Serial.list()[i], 115200);
+      myPort.clear();
+      instrumentosSerial.add(myPort);
+      //}else{
+      //  //println("pula "+ Serial.list()[i]);
+
+      //}
+    }catch(Exception e){
+      println(e);
+      //exit();
+  
+    }
+    
+    
     
   }
 }

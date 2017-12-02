@@ -59,15 +59,15 @@ int begin = 0;
 
 int state;
 
-PImage logo, softex, ibm, paco;
+PImage logo, softex, ibm, paco, louco;
 Gif ai;
 //Config. para cubos
 
 // Variables qui d\u00e9finissent les "zones" du spectre
 // Par exemple, pour les basses, on prend seulement les premi\u00e8res 4% du spectre total
-float specLow = 0.3f; // 3%
-float specMid = 0.20f;  // 12.5%
-float specHi = 0.50f;   // 20%sa
+float specLow = 0.3f; // 0.3%
+float specMid = 0.20f;  // 0.2%
+float specHi = 0.50f;   // 0.5
 
 // Il reste donc 64% du spectre possible qui ne sera pas utilis\u00e9. 
 // Ces valeurs sont g\u00e9n\u00e9ralement trop hautes pour l'oreille humaine de toute facon.
@@ -192,6 +192,7 @@ public void setup() {
 
   fullScreen(P3D);
   //size(1366,768,P3D);
+
   
   noFill();
   state = 0;
@@ -200,7 +201,7 @@ public void setup() {
   //trombone = new MidiBus(this, 3, -1,"1");
   //trompete = new MidiBus(this, 2, -1,"2");
   //percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 9, "5");
+  ableton = new MidiBus(this, -1, "Ableton", "5");
   createSerial();
   
   ableton.sendNoteOn(2,8,127);
@@ -216,6 +217,7 @@ public void setup() {
   softex = loadImage("logoSoftex.png");
   ibm = loadImage("logoIBM.png");
   paco = loadImage("logoPaco.png");
+  louco = loadImage("louco.png");
   ai = new Gif(this, "ai_gif.gif");
   ai.loop();
   loadGif();
@@ -225,7 +227,7 @@ public void setup() {
 
 public void again(){
   
-    
+  delay(10000);
   time = "10";
   cont = 10;
   interval = 1000;//one second
@@ -254,20 +256,18 @@ public void again(){
 }
 
 public void draw() {
-  //readSerial();
+ 
   readSerial();
-  
   
   switch(state){
     case 0:{
       //bem vindo batuta
-      tela0();
-      
-      
+      tela0();      
       break;
     }
     case 1:{
       //apresenta\u00e7\u00e3o da freviana
+      
       tela1();
       break;
     }
@@ -283,7 +283,7 @@ public void draw() {
     case 4:{
       //din\u00e2mica
       cubos();
-      image(ai, width/2-40 , height/2-25, 75,50);
+      //image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
       }else{
         state = 5;
@@ -300,11 +300,14 @@ public void draw() {
     case 6:{
       //tela dos agradecimentos e cr\u00e9ditos
       tela5();
+      //again();
       break;
     }
   }
 }
-AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos,frevo_agradecimento;
+
+AudioPlayer freviana1_0,freviana1_1,freviana1_2,freviana1_3, freviana1_4, freviana2_1, freviana2_5, freviana2, freviana3, frevianaPlayable, audioCronometro, freviana_agradecimentos, frevo_agradecimento;
+
 
 public void playSolos(){
   //saxValue = 0 , tromboneValue = 1, trompeteValue=2 ,percussaoValue=3, batutaValue=4 ;
@@ -312,10 +315,10 @@ public void playSolos(){
   if (soloBateria.isPlaying()) {
     println("Estou aqui");
     println(instruments.get(3));
-    soloSax.setGain(map(instruments.get(0),0,127,-50,10));
-    soloTrombone.setGain(map(instruments.get(1),0,127,-50,10));
-    soloTrompete.setGain(map(instruments.get(2),0,127,-50,10));
-    soloBateria.setGain(map(instruments.get(3),0,127,-50,0));
+    soloSax.setGain(map(instruments.get(0),0,127,-50,0));
+    soloTrombone.setGain(map(instruments.get(1),0,127,-50,0));
+    soloTrompete.setGain(map(instruments.get(2),0,127,-50,0));
+    soloBateria.setGain(map(instruments.get(3),0,127,-50,-5));
     
   }else {
     soloBateria.play();
@@ -355,7 +358,8 @@ public void loadFrevianaFiles(){
     frevianaPlayable = minim.loadFile("1_3.mp3",2048);
     audioCronometro = minim.loadFile("cronometro.mp3",2048);
     freviana_agradecimentos = minim.loadFile("freviana_agradecimentos.mp3", 2048);
-    frevo_agradecimento = minim.loadFile("temcoisanofrevocut.mp3", 2048);
+    frevo_agradecimento = minim.loadFile("temcoisanofrevocut.mp3",2048);
+
 }
 
 public void rewindAudio(){
@@ -439,6 +443,8 @@ public void loadFft(){
 public void loadForward(){
    //'frames' da musica
    fft.forward(song.mix);
+   //song.skip(50);
+
    
    //'frames' dos instrumentos
    fft_sax.forward(song_sax.mix);
@@ -577,7 +583,7 @@ public void cronometro(){
   
   endShape();
 }
-
+float saxShake, tromboneShake, trompeteShake, percussaoShake;
 //Classe pour les cubes qui flottent dans l'espace
 class Cube {
   //Position Z de "spawn" et position Z maximale
@@ -701,7 +707,8 @@ public void cubos(){
    
   //Volume pour toutes les fr\u00e9quences \u00e0 ce moment, avec les sons plus haut plus importants.
   //Cela permet \u00e0 l'animation d'aller plus vite pour les sons plus aigus, qu'on remarque plus
-  float scoreGlobal = 0.66f*scoreLow + 0.8f*scoreMid + 1*scoreHi;
+  //float scoreGlobal = 0.66*scoreLow + 0.8*scoreMid + 1*scoreHi;
+  float scoreGlobal = (0.66f*scoreLow + 0.8f*scoreMid + 1*scoreHi)*1.5f;
   
   //Couleur subtile de background
   background(scoreLow/100, scoreMid/100, scoreHi/100);
@@ -732,40 +739,54 @@ public void cubos(){
 
     
   //delay(100);
-  
+  saxShake = instruments.get(0);
+  //saxShake = 127;
+  tromboneShake = instruments.get(1);
+  trompeteShake = instruments.get(2);
+  percussaoShake = instruments.get(3);
   
   for(int i = 1; i < fft.specSize(); i++)
   {
     //linha sax
     //ligne inferieure gauche
-    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50));             
+    
+    float bandValueTrombone = fft_trombone.getBand(i);      
     //Selection de la couleur en fonction des forces des diff\u00e9rents types de sons
-    stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
-    strokeWeight(1 + (scoreGlobal/100));
+   // stroke(100+scoreLow, 100+scoreMid, 100+scoreHi, 255-i);
+    stroke((2*tromboneShake)+scoreLow, (2*tromboneShake)+scoreMid, 255-tromboneShake*2, 40+tromboneShake*2);
+    strokeWeight(2.5f+tromboneShake/100);
     
-    //float bandValueSax = 100 ;
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), 0, height-(bandValueSax*heightMult), dist*i);  // vertical
-    line((previousBandValueSax*heightMult), height, dist*(i-1), (bandValueSax*heightMult), height, dist*i); // horizontal
-    line(0, height-(previousBandValueSax*heightMult), dist*(i-1), (bandValueSax*heightMult), height, dist*i); // diagonal
-    
-    
-    //linha percussao
-    float bandValuePercussao = fft_bateria.getBand(i);
+    line(0, height-(previousBandValueTrombone*heightMult), dist*(i-1), 0, height-(bandValueTrombone*heightMult), dist*i);  // vertical
+    line((previousBandValueTrombone*heightMult), height, dist*(i-1), (bandValueTrombone*heightMult), height, dist*i); // horizontal
+    line(0, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult), height, dist*i); // diagonal
+
+
+    float bandValueSax = fft_sax.getBand(i) * (1 + (i/50)); 
+    stroke((2*saxShake)+scoreLow, (2*saxShake)+scoreMid, 255-saxShake*2, 40+saxShake*2);
+    strokeWeight(2.5f+saxShake/100);
     //ligne superieure droite
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200, height-(bandValuePercussao*heightMult), dist*i);
-    line(width/2+200-(previousBandValuePercussao*heightMult), height, dist*(i-1), width/2+200-(bandValuePercussao*heightMult), height, dist*i);
-    line(width/2+200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2+200-(bandValuePercussao*heightMult),height, dist*i);
+    line(width/2+200, height-(previousBandValueSax*heightMult), dist*(i-1), width/2+200, height-(bandValueSax*heightMult), dist*i);
+    line(width/2+200-(previousBandValueSax*heightMult), height, dist*(i-1), width/2+200-(bandValueSax*heightMult), height, dist*i);
+    line(width/2+200, height-(previousBandValueSax*heightMult), dist*(i-1), width/2+200-(bandValueSax*heightMult),height, dist*i);
     
-    //linha trombone
-    float bandValueTrombone = fft_trombone.getBand(i);
+    //linha Sax
+
+    
+
+
+    float bandValuePercussao = fft_bateria.getBand(i);
+    stroke((2*percussaoShake)+scoreLow, (2*percussaoShake)+scoreMid, 255-2*percussaoShake, 40+percussaoShake*2);
+    strokeWeight(2.5f+percussaoShake/100);
     ////ligne superieure gauche  line(x1, y1, z1, x2, y2, z2)
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), width/2-200, height-(bandValueTrombone*heightMult), dist*i);
-    line((previousBandValueTrombone*heightMult)+width/2-200, height, dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
-    line(width/2-200, height-(previousBandValueTrombone*heightMult), dist*(i-1), (bandValueTrombone*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValuePercussao*heightMult), dist*(i-1), width/2-200, height-(bandValuePercussao*heightMult), dist*i);
+    line((previousBandValuePercussao*heightMult)+width/2-200, height, dist*(i-1), (bandValuePercussao*heightMult)+width/2-200, height, dist*i);
+    line(width/2-200, height-(previousBandValuePercussao*heightMult), dist*(i-1), (bandValuePercussao*heightMult)+width/2-200, height, dist*i);
     
     //linha trompete
-    ///float bandValueTrompete = bandValue1*map(instruments.get(1),0,127,0.0,1.8); // pegando o valor do midi
-    float bandValueTrompete = fft_trompete.getBand(i);
+    float bandValueTrompete = fft_trompete.getBand(i) * (1 + (i/50)); 
+    stroke(trompeteShake*2+scoreLow, (trompeteShake*2)+scoreMid,255-2*trompeteShake, 40+trompeteShake*2);
+    strokeWeight(2.5f+trompeteShake/100);
+    
     //ligne inferieure droite
     line(width, height-(previousBandValueTrompete*heightMult), dist*(i-1), width, height-(bandValueTrompete*heightMult), dist*i);
     line(width-(previousBandValueTrompete*heightMult), height, dist*(i-1), width-(bandValueTrompete*heightMult), height, dist*i);
@@ -776,6 +797,7 @@ public void cubos(){
     previousBandValueTrombone = bandValueTrombone;
     previousBandValuePercussao = bandValuePercussao;
     previousBandValueSax = bandValueSax;
+
 
 }
   
@@ -816,11 +838,11 @@ public void loadGif(){
   bateriaGif.loop();
   batutaGif.loop();
 
-  saxImage = loadImage("sax_white.png");
-  trompeteImage = loadImage("sax_white.png");
-  tromboneImage = loadImage("sax_white.png");
-  bateriaImage = loadImage("sax_white.png");
-  batutaImage = loadImage("sax_white.png");
+  saxImage = loadImage("icone-sax.png");
+  trompeteImage = loadImage("icone-trompete.png");
+  tromboneImage = loadImage("icone-trombone.png");
+  bateriaImage = loadImage("icone-bateria.png");
+  batutaImage = loadImage("icone-batuta.png");
 
 }
 
@@ -886,23 +908,34 @@ public void readSerial(){
   //}
   
   try{
+    //println("size "+instrumentosSerial.size());
     if (contInstrumento < instrumentosSerial.size()){
-    println("ler serial ");
-    String inBuffer = instrumentosSerial.get(contInstrumento).readString();
+      //println("2 "+contInstrumento);
+      String inBuffer = instrumentosSerial.get(contInstrumento).readString();
+      //println("3");
       if (inBuffer != null) {
+        if(inBuffer.equals("led")){instrumentosSerial.remove(contInstrumento);}
         String[] a = split(inBuffer, " ");
         println(a[0]);
         println(a[1]);
         channel = PApplet.parseInt(a[0]);
-        value = PApplet.parseInt(a[1]); 
-        contInstrumento += + 1;//  respons\u00e1vel por andar entre os intrumentos;
+        value = PApplet.parseInt(a[1]);
+        if(a[0] == "4"){
+          println("batuta");
+          print("2 "+a[2]+"3 "+a[3]+"4"+a[4]);
+        }
+        contInstrumento += 1;//  respons\u00e1vel por andar entre os intrumentos;
+      }else{
+        println("Sem buffer  "+instrumentosSerial.get(contInstrumento));
+        contInstrumento += 1;
       }
     }else{
-      println("Zerar contador");
+      //println("Zerar contador");
       contInstrumento = 0;
     }
   }catch(Exception x){
     println(x);
+    //contInstrumento += 1;
   }
    
   switch(state){
@@ -912,7 +945,6 @@ public void readSerial(){
         instruments.set(channel,value);
         println(channel);
         instrumentoAtual = channel;
-        delay(1000);
         
       }
       break;
@@ -947,8 +979,22 @@ public void createSerial(){
   println(Serial.list());
   for (int i = 0; i < Serial.list().length; i++){
     println(Serial.list()[i]);
-    myPort = new Serial(this, Serial.list()[i], 38400);
-    instrumentosSerial.add(myPort);
+    try{
+      //if(Serial.list()[i].equals("COM46")||Serial.list()[i].equals("COM44")||Serial.list()[i].equals("COM24")||Serial.list()[i].equals("COM26"))
+      myPort = new Serial(this, Serial.list()[i], 115200);
+      myPort.clear();
+      instrumentosSerial.add(myPort);
+      //}else{
+      //  //println("pula "+ Serial.list()[i]);
+
+      //}
+    }catch(Exception e){
+      println(e);
+      //exit();
+  
+    }
+    
+    
     
   }
 }
@@ -1024,6 +1070,7 @@ class Mur {
     if (intensity > 100) intensity = 100;
     scale(sizeX*(intensity/100), sizeY*(intensity/100), 20);
     
+    
     //Cr\u00e9ation de la "boite"
     box(1);
     popMatrix();
@@ -1045,10 +1092,13 @@ class Mur {
     popMatrix();
     
     //D\u00e9placement Z
+    // reduz a velocidade dos muros, mas n\u00e3o altera a m\u00fasica.
     z+= (pow((scoreGlobal/150), 2));
+
     if (z >= maxZ) {
       z = startingZ;  
     }
+    
   }
 }
 public void mainDraw(int x, int y, int scale){
@@ -1180,8 +1230,8 @@ public void tela0(){
   background(bg);
   textSize(50);
   textAlign(CENTER);
-  text("Experimente o 1\u00ba Frevo criado ", width/2, height/2-160);
-  text("por uma Intelig\u00eancia Artificial",  width/2, height/2-110);
+  text("Experimente o 1\u00ba Frevo criado por", width/2, height/2-160);
+  text("um artista com uso de Intelig\u00eancia Artificial",  width/2, height/2-110);
   
   image(logo, width/2-180, height/2-10);
   fill(255);
@@ -1189,12 +1239,16 @@ public void tela0(){
   beginShape();
   textSize(30);
   text("Balance um intrumento para iniciar a intera\u00e7\u00e3o", width/2, height/2+150);
+  h1("M\u00fasica: Tem coisa no Frevo",25, width/2-530, height-140);
+  h1("Autor: Sergio Gaia e I.A",25, width/2-553, height-110);
+  h1("Grava\u00e7\u00e3o: Spok Frevo Orquestra",25, width/2-498, height-80);
   endShape();
   
   
   image(softex, width/2+50, height-75, 130, 60);
   image(ibm, width/2+200, height-75, 80, 70);
-  //image(paco, width/2+300, height-80, 50,70);
+  image(paco, width/2+300, height-80, 50,70);
+  image(louco, width/2+400, height-80, 100,70);
   
 }
 public void tela1(){
@@ -1222,6 +1276,7 @@ public void tela1(){
             frevianaPlayable = freviana1_1;
             freviana2 = freviana2_1;
             frevianaPlayable.play();
+            frevianaPlayable.setGain(5);
             instrumento = "pelo trombone";
             println(" play 1 ");
             break;
@@ -1252,7 +1307,7 @@ public void tela1(){
           }
         }
       //frevianaPlayable.play();
-      frevianaPlayable.setGain(-20);
+      frevianaPlayable.setGain(0);
       played =true;
     }
   }
@@ -1262,8 +1317,9 @@ public void tela1(){
     println("texto batuta");
     if (fimAnimacao){
       h1(textos[textos.length-1],40, width/2, 230);
+      //image(ai, width/2 , height/2, 75,50);
     }else{
-      fade(textos, delay, 100, width/2, 230);
+      fade(textos, delay, 40, width/2, 230);
     }
   }else{
     String [] textos = {"Ol\u00e1, sou a Freviana, a intelig\u00eancia artificial por tr\u00e1s do Batuta", " Percebi que voc\u00ea se interessou " + instrumento + " "," Com a ajuda do Pa\u00e7o do Frevo compus um frevo \u00fanico", " mas como sou feita apenas de bits preciso da sua ajuda para toc\u00e1-lo"};
@@ -1297,15 +1353,16 @@ public void tela1(){
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
 
-  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  image(ai, width/2-50, 120, 100,100);
+  drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
   h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
   h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
   h1("Para aumentar a banda",15, width/2-10, height/2+260);
   drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
   h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
   h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   //instrument(width/2-300, height/2+200, 75, instruments.get(0), 237, 28, 36, 2, map(instruments.get(0), 0,127,0.1,2), 0.5, 0.5);
   //instrument(width/2-100, height/2+200, 75, instruments.get(1), 255, 230, 0, 2, map(instruments.get(1), 0,127,0.1,2), 0.5, 0.5);
@@ -1348,16 +1405,16 @@ public void tela2(){
       fill(225);
       endShape();
     }
-
-  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  image(ai, width/2-50, 120, 100,100);
+  drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
   h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
   h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
   h1("Para aumentar a banda",15, width/2-10, height/2+260);
   drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
   h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
   h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   
 //int x, int y, int scale, float midi, int R, int G, int B, float variableMM, float variableNN1, float variableNN2, float variableNN3
@@ -1379,7 +1436,7 @@ public void tela2(){
     }else{
       println("play freviana");
       freviana2.play();
-      freviana2.setGain(-20);
+      freviana2.setGain(0);
       played =true;
     }
   }
@@ -1407,16 +1464,16 @@ public void tela3(){
       fill(225);
     endShape();
   }
-
-  drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+  image(ai, width/2-50, 120, 100,100);
+  drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
   h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-  drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+  drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
   h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-  drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+  drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
   h1("Para aumentar a banda",15, width/2-10, height/2+260);
   drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
   h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-  drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
+  drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
   h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
   
   if (freviana3.isPlaying()==false) {
@@ -1427,21 +1484,22 @@ public void tela3(){
       textAlign(CENTER);
       h1("\u00c9 hora de afinar os instrumentos...", 40 ,width/2, 230);
       cronometro();
-      drawInstrument(saxGif,saxImage, width/2-600, height/2+100, instruments.get(0) );
+      image(ai, width/2-50, 120, 100,100);
+      drawInstrument(tromboneGif,tromboneImage, width/2-600, height/2+100, instruments.get(1) );
       h1("Para aumentar o instrumento",15, width/2-510, height/2+260);
-      drawInstrument(tromboneGif, tromboneImage, width/2-350, height/2+100, instruments.get(1));
+      drawInstrument(bateriaGif, bateriaImage, width/2-350, height/2+100, instruments.get(3));
       h1("Para aumentar o instrumento",15, width/2-260, height/2+260);
-      drawInstrument(batutaGif, batutaImage, width/2-100, height/2+100, instruments.get(4));
+      drawInstrument(saxGif, saxImage, width/2-100, height/2+100, instruments.get(0));
       h1("Para aumentar a banda",15, width/2-10, height/2+260);
       drawInstrument(trompeteGif, trompeteImage, width/2+150, height/2+100, instruments.get(2));
       h1("Para aumentar o instrumento",15, width/2+240, height/2+260);
-      drawInstrument(bateriaGif, bateriaImage, width/2+400, height/2+100, instruments.get(3));
-      h1("Para aumentar o instrumento",15, width/2+490, height/2+260);    
+      drawInstrument(batutaGif, batutaImage, width/2+400, height/2+100, instruments.get(4));
+      h1("Para aumentar o instrumento",15, width/2+490, height/2+260);
               
     }else{
       println("play freviana");
       freviana3.play();
-      freviana3.setGain(-20);
+      freviana3.setGain(0);
       played =true;
       delay(1000);
     }
@@ -1462,7 +1520,7 @@ public void tela4(){
       }else{
         println("play freviana");
         freviana_agradecimentos.play();
-        freviana_agradecimentos.setGain(-20);
+        freviana_agradecimentos.setGain(0);
         played =true;
       }
     }
@@ -1475,10 +1533,10 @@ public void tela4(){
   }
   
   //h1("Agradecimentos", 40, width/2, height-700);
-  
+  image(ai, width/2-50, 120, 100,100);
   image(softex, width/2+50, height-75, 130, 60);
   image(ibm, width/2+200, height-75, 80, 70);
-  //image(paco, width/2+300, height-80, 50,70);
+  image(paco, width/2+300, height-80, 50,70);
   image(logo, width-1100, height-70);
   
   
@@ -1501,10 +1559,10 @@ public void tela5(){
       background(bg);  
       h1("AGRADECIMENTOS", 40, width/2, height-700);
        
-      image(softex, width/2+50, height-75, 130, 60);
-      image(ibm, width/2+200, height-75, 80, 70);
-      //image(paco, width/2+300, height-80, 50,70);
-      image(logo, width-1100, height-70);
+      image(softex, width/2-110, (height/2)-200, 260, 120);
+      image(ibm, width/2-400, (height/2)-200, 160, 140);
+      image(paco, width/2+330, (height/2)-200, 100,140);
+      image(logo, width/2-190, height-100);
       
       h1("Empresas apoiadoras",20, width/2, height/2);
       
@@ -1512,11 +1570,12 @@ public void tela5(){
       h1("Softex", 18, width-1000, (height/2)+40);
       h1("Pitang", 18, width-1000, (height/2)+60);
       h1("CESAR", 18, width-1000, (height/2)+80);
-      h1("RH3", 18, width-1000, (height/2)+100);
+      h1("RH3 Software", 18, width-1000, (height/2)+100);
       h1("Facilit", 18, width-1000, (height/2)+120);
       h1("Procenge", 18, width-1000, (height/2)+140);
       
       //Coluna 2
+
       h1("NeuroTech", 18, width/2, (height/2)+40);
       h1("In Forma", 18, width/2, (height/2)+60);
       h1("Inhalt", 18, width/2, (height/2)+80);
@@ -1526,6 +1585,7 @@ public void tela5(){
       h1("Batebit", 18, width/2, (height/2)+160);
       
       //Coluna 3
+
       h1("Qualinfo Tecnologia", 18, width-300, (height/2)+40);
       h1("Pluri Educacional", 18, width-300, (height/2)+60);
       h1("Corptech", 18, width-300, (height/2)+80);
@@ -1534,20 +1594,29 @@ public void tela5(){
       h1("L.O.U.Co", 18, width-300, (height/2)+140);
       h1("D'accord", 18, width-300, (height/2)+160);
       
+      h1("Desenvolvedores",20, width/2, height/2+200);
+      
+      h1("Delando J\u00fanior", 18, width-1000, (height/2)+240);
+      h1("Gleybson Farias", 18, width/2, (height/2)+240);
+      h1("Patrick Gouy", 18, width-300, (height/2)+240);
+       
+
+     
   
   if (frevo_agradecimento.isPlaying()==false) {
     if (played){
     again();
     println("agradecimentos encerrado");
   }else{
-    frevo_agradecimento.play();  
+    frevo_agradecimento.play();
+    frevo_agradecimento.setGain(0);
     played = true;
    }    
  }  
 }
   public void settings() {  fullScreen(P3D);  smooth(); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--present", "--window-color=#666666", "--stop-color=#FF0505", "interfaceProcessing" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#666666", "--stop-color=#cccccc", "interfaceProcessing" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

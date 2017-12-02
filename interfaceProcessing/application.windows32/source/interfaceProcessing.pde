@@ -36,15 +36,15 @@ int begin = 0;
 
 int state;
 
-PImage logo, softex, ibm, paco;
+PImage logo, softex, ibm, paco, louco;
 Gif ai;
 //Config. para cubos
 
 // Variables qui définissent les "zones" du spectre
 // Par exemple, pour les basses, on prend seulement les premières 4% du spectre total
-float specLow = 0.3; // 3%
-float specMid = 0.20;  // 12.5%
-float specHi = 0.50;   // 20%sa
+float specLow = 0.3; // 0.3%
+float specMid = 0.20;  // 0.2%
+float specHi = 0.50;   // 0.5
 
 // Il reste donc 64% du spectre possible qui ne sera pas utilisé. 
 // Ces valeurs sont généralement trop hautes pour l'oreille humaine de toute facon.
@@ -169,6 +169,7 @@ void setup() {
 
   fullScreen(P3D);
   //size(1366,768,P3D);
+
   smooth();
   noFill();
   state = 0;
@@ -177,7 +178,7 @@ void setup() {
   //trombone = new MidiBus(this, 3, -1,"1");
   //trompete = new MidiBus(this, 2, -1,"2");
   //percussao = new MidiBus(this, 1, -1,"3");
-  ableton = new MidiBus(this, -1, 9, "5");
+  ableton = new MidiBus(this, -1, "Ableton", "5");
   createSerial();
   
   ableton.sendNoteOn(2,8,127);
@@ -193,6 +194,7 @@ void setup() {
   softex = loadImage("logoSoftex.png");
   ibm = loadImage("logoIBM.png");
   paco = loadImage("logoPaco.png");
+  louco = loadImage("louco.png");
   ai = new Gif(this, "ai_gif.gif");
   ai.loop();
   loadGif();
@@ -202,7 +204,7 @@ void setup() {
 
 void again(){
   
-    
+  delay(10000);
   time = "10";
   cont = 10;
   interval = 1000;//one second
@@ -231,20 +233,18 @@ void again(){
 }
 
 void draw() {
-  //readSerial();
+ 
   readSerial();
-  
   
   switch(state){
     case 0:{
       //bem vindo batuta
-      tela0();
-      
-      
+      tela0();      
       break;
     }
     case 1:{
       //apresentação da freviana
+      
       tela1();
       break;
     }
@@ -260,7 +260,7 @@ void draw() {
     case 4:{
       //dinâmica
       cubos();
-      image(ai, width/2-40 , height/2-25, 75,50);
+      //image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
       }else{
         state = 5;
@@ -277,6 +277,7 @@ void draw() {
     case 6:{
       //tela dos agradecimentos e créditos
       tela5();
+      //again();
       break;
     }
   }
