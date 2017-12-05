@@ -260,7 +260,7 @@ void draw() {
     case 4:{
       //dinâmica
       cubos();
-      //image(ai, width/2-40 , height/2-25, 75,50);
+      image(ai, width/2-40 , height/2-25, 75,50);
       if(song.isPlaying()){
       }else{
         state = 5;
